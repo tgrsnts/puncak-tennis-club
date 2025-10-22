@@ -15,7 +15,12 @@
                         <i class="fa-solid fa-users text-2xl text-indigo-500"></i>
                     </div>
                 </div>
-                <div class="text-sm text-emerald-500">8.5% Up from yesterday</div>
+                <div class="text-sm flex gap-2 items-center">
+                    <div class="text-emerald-500 flex gap-2 items-center">
+                        <i class="fa-solid fa-arrow-trend-up"></i>8.5%
+                    </div>
+                    <div class="text-gray-600 "> Up from yesterday</div>
+                </div>
             </div>
             <div class="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 w-full">
                 <div class="flex justify-between">
@@ -27,7 +32,12 @@
                         <i class="fa-solid fa-box text-2xl text-amber-500"></i>
                     </div>
                 </div>
-                <div class="text-sm text-emerald-500">8.5% Up from yesterday</div>
+                <div class="text-sm flex gap-2 items-center">
+                    <div class="text-emerald-500 flex gap-2 items-center">
+                        <i class="fa-solid fa-arrow-trend-up"></i>8.5%
+                    </div>
+                    <div class="text-gray-600 "> Up from yesterday</div>
+                </div>
             </div>
             <div class="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 w-full">
                 <div class="flex justify-between">
@@ -36,22 +46,32 @@
                         <p class="text-2xl font-semibold text-gray-700">6000</p>
                     </div>
                     <div class="flex justify-center items-center bg-green-200 w-16 h-16 rounded-lg">
-                        <i class="fa-solid fa-chart-simple text-2xl text-green-500"></i>
+                        <i class="fa-solid fa-chart-line text-2xl text-green-500"></i>
                     </div>
                 </div>
-                <div class="text-sm text-emerald-500">8.5% Up from yesterday</div>
+                <div class="text-sm flex gap-2 items-center">
+                    <div class="text-emerald-500 flex gap-2 items-center">
+                        <i class="fa-solid fa-arrow-trend-up"></i>8.5%
+                    </div>
+                    <div class="text-gray-600 "> Up from yesterday</div>
+                </div>
             </div>
             <div class="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 w-full">
                 <div class="flex justify-between">
                     <div>
                         <h2 class="text-md font-medium text-gray-600 mb-4">Pending</h2>
                         <p class="text-2xl font-semibold text-gray-700">2040</p>
-                    </div >
+                    </div>
                     <div class="flex justify-center items-center bg-orange-200 w-16 h-16 rounded-lg">
                         <i class="fa-solid fa-box text-2xl text-orange-500"></i>
                     </div>
                 </div>
-                <div class="text-sm text-emerald-500">8.5% Up from yesterday</div>
+                <div class="text-sm flex gap-2 items-center">
+                    <div class="text-emerald-500 flex gap-2 items-center">
+                        <i class="fa-solid fa-arrow-trend-up"></i>8.5%
+                    </div>
+                    <div class="text-gray-600 "> Up from yesterday</div>
+                </div>
             </div>
         </div>
 
