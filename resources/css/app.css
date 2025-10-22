@@ -1,0 +1,36 @@
+@import "tailwindcss";
+@source "../views";
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@theme {
+  --font-poppins: 'Poppins', 'sans-serif';
+  
+  /* Green Shades */
+  --color-green-light: #ebf2eb;
+  --color-green-light-hover: #e1ece0;
+  --color-green-light-active: #c1d8bf;
+  --color-green-normal: #388132;
+  --color-green-normal-hover: #32742d;
+  --color-green-normal-active: #2d6728;
+  --color-green-dark: #2a6126;
+  --color-green-dark-hover: #224d1e;
+  --color-green-dark-active: #193a16;
+  --color-green-darker: #142d12;
+
+  /* Yellow Shades */
+  --color-yellow-light: #fff1e6;
+  --color-yellow-light-hover: #ffeada;
+  --color-yellow-light-active: #fed3b3;
+  --color-yellow-normal: #FD7109;
+  --color-yellow-normal-hover: #e46608;
+  --color-yellow-normal-active: #ca5a07;
+  --color-yellow-dark: #be5507;
+  --color-yellow-dark-hover: #984405;
+  --color-yellow-dark-active: #723304;
+  --color-yellow-darker: #592803;
+}
+
+@plugin "daisyui";
