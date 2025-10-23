@@ -4,8 +4,8 @@
 
 @section('content')
     <section id="dashboard" class="min-h-screen font-poppins w-full flex flex-col gap-4 p-4 pb-20 bg-[#F4F5F9]">
-        <h2 class="text-2xl font-semibold mb-4">Add Gallery Photo</h2>
-        <a href="{{ route('admin.gallery-photo.index') }}"
+        <h2 class="text-2xl font-semibold mb-4">Edit Gallery Photo</h2>
+        <a href="{{ route('admin.gallery-photo.index')}}"
             class="bg-green-dark hover:bg-green-dark-hover focus:bg-green-dark-hover px-4 py-2 w-fit text-white rounded-lg">Kembali</a>
         <div class="bg-white p-4 rounded-lg border border-gray-200 flex flex-col gap-4">
             <form action="">

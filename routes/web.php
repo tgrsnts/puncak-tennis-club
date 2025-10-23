@@ -16,8 +16,9 @@ Route::prefix('{locale?}')
             Route::get('/order', fn() => view('admin.order.index'))->name('admin.order');
 
             Route::prefix('gallery-photo')->group(function () {
-                Route::get('/', fn() => view('admin.gallery-photo.index'))->name('gallery.index');
-                Route::get('/create', fn() => view('admin.gallery-photo.create'))->name('gallery.create');
+                Route::get('/', fn() => view('admin.gallery-photo.index'))->name('admin.gallery-photo.index');
+                Route::get('/create', fn() => view('admin.gallery-photo.create'))->name('admin.gallery-photo.create');
+                Route::get('/edit', fn() => view('admin.gallery-photo.edit'))->name('admin.gallery-photo.edit');
             });
 
             Route::get('/timetable', fn() => view('admin.timetable.index'))->name('admin.timetable');
