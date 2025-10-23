@@ -33,6 +33,8 @@ Route::prefix('{locale?}')
                 Route::get('/edit', fn() => view('admin.timetable.edit'))->name('admin.timetable.edit');
             });
         });
+
+        Route::get('/profile', fn() => view('admin.profile.index'))->name('profile');
     });
 
 // (Opsional) Redirect otomatis untuk URL tanpa prefix locale
