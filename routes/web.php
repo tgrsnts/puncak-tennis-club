@@ -21,6 +21,12 @@ Route::prefix('{locale?}')
                 Route::get('/edit', fn() => view('admin.gallery-photo.edit'))->name('admin.gallery-photo.edit');
             });
 
+            Route::prefix('gallery-video')->group(function () {
+                Route::get('/', fn() => view('admin.gallery-video.index'))->name('admin.gallery-video.index');
+                Route::get('/create', fn() => view('admin.gallery-video.create'))->name('admin.gallery-video.create');
+                Route::get('/edit', fn() => view('admin.gallery-video.edit'))->name('admin.gallery-video.edit');
+            });
+
             Route::prefix('timetable')->group(function () {
                 Route::get('/', fn() => view('admin.timetable.index'))->name('admin.timetable.index');
                 Route::get('/create', fn() => view('admin.timetable.create'))->name('admin.timetable.create');
