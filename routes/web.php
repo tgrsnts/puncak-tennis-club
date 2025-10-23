@@ -21,7 +21,11 @@ Route::prefix('{locale?}')
                 Route::get('/edit', fn() => view('admin.gallery-photo.edit'))->name('admin.gallery-photo.edit');
             });
 
-            Route::get('/timetable', fn() => view('admin.timetable.index'))->name('admin.timetable');
+            Route::prefix('timetable')->group(function () {
+                Route::get('/', fn() => view('admin.timetable.index'))->name('admin.timetable.index');
+                Route::get('/create', fn() => view('admin.timetable.create'))->name('admin.timetable.create');
+                Route::get('/edit', fn() => view('admin.timetable.edit'))->name('admin.timetable.edit');
+            });
         });
     });
 
