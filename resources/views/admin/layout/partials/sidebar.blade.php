@@ -1,21 +1,14 @@
 <nav id="sidebar"
     class="transition-all duration-300 fixed left-0 h-full w-80 bg-green-normal z-11 flex flex-col gap-1 pr-12 font-sans text-base font-normal text-blue-gray-700">
-    @php
-        $currentRoute = Request::path();
-    @endphp
-
     <div class="flex flex-col justify-between h-full pb-4">
         <div class="flex flex-col gap-1">
             <div class="flex w-64  h-20 justify-center">
                 <a href="/" class="flex items-center gap-2 whitespace-nowrap text-2xl">
-                    <img class="h-8" src="{{ asset('assets/images/logo-puncak-tennis-club.png') }}" alt="">                    
+                    <img class="h-8" src="{{ asset('assets/images/logo-puncak-tennis-club.png') }}" alt="">
                 </a>
             </div>
-
-            {{-- <a href="/admin"
-                class="mt-4 text-white font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white"> --}}
-                <a href="/admin"
-                    class="mt-4 {{ $currentRoute == 'admin' ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+            <a href="/admin"
+                class="mt-4 {{ Request::is('*admin') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
                 <div class="flex w-6 h-6 mr-4 items-center justify-center">
                     <i class="fa-solid fa-dashboard"></i>
                 </div>
@@ -23,7 +16,7 @@
             </a>
 
             <a href="/admin/order"
-                class="{{ $currentRoute == 'admin/order' ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                class="{{ Request::is('*admin/order') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
                 <div class="flex w-6 h-6 mr-4 items-center justify-center">
                     <i class="fa-solid fa-list"></i>
                 </div>
@@ -31,7 +24,7 @@
             </a>
 
             <a href="/admin/gallery-photo"
-                class="{{ $currentRoute == 'admin/gallery-photo' ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                class="{{ Request::is('*admin/gallery-photo') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
                 <div class="flex w-6 h-6 mr-4 items-center justify-center">
                     <i class="fa-solid fa-image"></i>
                 </div>
@@ -39,7 +32,7 @@
             </a>
 
             <a href="/admin/gallery-video"
-                class="{{ $currentRoute == 'admin/gallery-video' ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                class="{{ Request::is('*admin/gallery-video') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
                 <div class="flex w-6 h-6 mr-4 items-center justify-center">
                     <i class="fa-solid fa-video"></i>
                 </div>
@@ -47,7 +40,7 @@
             </a>
 
             <a href="/admin/timetable"
-                class="{{ $currentRoute == 'admin/timetable' ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                class="{{ Request::is('*admin/timetable') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
                 <div class="flex w-6 h-6 mr-4 items-center justify-center">
                     <i class="fa-solid fa-calendar"></i>
                 </div>
