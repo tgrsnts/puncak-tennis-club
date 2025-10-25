@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\GalleryPhotoController;
+use App\Http\Controllers\Admin\GalleryVideoController;
+use App\Http\Controllers\Admin\TimetableController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -10,27 +13,39 @@ Route::prefix('{locale?}')
     ->group(function () {
         Route::get('/', fn() => view('index'))->name('home');
 
-        Route::prefix('admin')->group(function () {
-            Route::get('/', fn() => view('admin.index'))->name('admin.index');
+        Route::prefix('admin')->name('admin.')->group(function () {
+            Route::get('/', fn() => view('admin.index'))->name('index');
 
-            Route::get('/order', fn() => view('admin.order.index'))->name('admin.order');
+            Route::get('/order', fn() => view('admin.order.index'))->name('order');
 
-            Route::prefix('gallery-photo')->group(function () {
-                Route::get('/', fn() => view('admin.gallery-photo.index'))->name('admin.gallery-photo.index');
-                Route::get('/create', fn() => view('admin.gallery-photo.create'))->name('admin.gallery-photo.create');
-                Route::get('/edit', fn() => view('admin.gallery-photo.edit'))->name('admin.gallery-photo.edit');
+            // ======== GALLERY PHOTO ========
+            Route::prefix('gallery-photo')->name('gallery-photo.')->group(function () {
+                Route::get('/', [GalleryPhotoController::class, 'index'])->name('index');
+                Route::get('/create', [GalleryPhotoController::class, 'create'])->name('create');
+                Route::post('/', [GalleryPhotoController::class, 'store'])->name('store');
+                Route::get('/{id}/edit', [GalleryPhotoController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [GalleryPhotoController::class, 'update'])->name('update');
+                Route::delete('/{id}', [GalleryPhotoController::class, 'destroy'])->name('destroy');
             });
 
-            Route::prefix('gallery-video')->group(function () {
-                Route::get('/', fn() => view('admin.gallery-video.index'))->name('admin.gallery-video.index');
-                Route::get('/create', fn() => view('admin.gallery-video.create'))->name('admin.gallery-video.create');
-                Route::get('/edit', fn() => view('admin.gallery-video.edit'))->name('admin.gallery-video.edit');
+            // ======== GALLERY VIDEO ========
+            Route::prefix('gallery-video')->name('gallery-video.')->group(function () {
+                Route::get('/', [GalleryVideoController::class, 'index'])->name('index');
+                Route::get('/create', [GalleryVideoController::class, 'create'])->name('create');
+                Route::post('/', [GalleryVideoController::class, 'store'])->name('store');
+                Route::get('/{id}/edit', [GalleryVideoController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [GalleryVideoController::class, 'update'])->name('update');
+                Route::delete('/{id}', [GalleryVideoController::class, 'destroy'])->name('destroy');
             });
 
-            Route::prefix('timetable')->group(function () {
-                Route::get('/', fn() => view('admin.timetable.index'))->name('admin.timetable.index');
-                Route::get('/create', fn() => view('admin.timetable.create'))->name('admin.timetable.create');
-                Route::get('/edit', fn() => view('admin.timetable.edit'))->name('admin.timetable.edit');
+            // ======== TIMETABLE ========
+            Route::prefix('timetable')->name('timetable.')->group(function () {
+                Route::get('/', [TimetableController::class, 'index'])->name('index');
+                Route::get('/create', [TimetableController::class, 'create'])->name('create');
+                Route::post('/', [TimetableController::class, 'store'])->name('store');
+                Route::get('/{id}/edit', [TimetableController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [TimetableController::class, 'update'])->name('update');
+                Route::delete('/{id}', [TimetableController::class, 'destroy'])->name('destroy');
             });
         });
 

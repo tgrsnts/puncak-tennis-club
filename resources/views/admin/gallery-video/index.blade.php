@@ -17,10 +17,18 @@
                         kebugaran, dan kebersamaan.
                         Dipandu pelatih berpengalaman dengan suasana seru dan interaktif.</p>
                     <div class="flex justify-between">
-                        <div class="flex gap-2">
-                            <a href="gallery-video/edit"
-                                class="px-4 py-2 bg-amber-500 text-white text-sm rounded-lg">Edit</a>
-                            <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg">Delete</button>
+                        <div class="flex gap-2 h-full">
+                            <a href="gallery-photo/edit"
+                                class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg">Edit</a>
+                            <form action="{{ route('admin.gallery-photo.destroy', ['locale' => app()->getLocale(), 'id' => 1]) }}" method="POST"
+                                class="delete-form block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="delete-btn px-4 py-2 bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white text-sm rounded-lg">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                         <div class="text-sm text-gray-600">
                             <div>12 Oktober 2025</div>
@@ -38,9 +46,18 @@
                         kebugaran, dan kebersamaan.
                         Dipandu pelatih berpengalaman dengan suasana seru dan interaktif.</p>
                     <div class="flex justify-between">
-                        <div class="flex gap-2">
-                            <button class="px-4 py-2 bg-amber-500 text-white text-sm rounded-lg">Edit</button>
-                            <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg">Delete</button>
+                        <div class="flex gap-2 h-full">
+                            <a href="gallery-photo/edit"
+                                class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg">Edit</a>
+                            <form action="{{ route('admin.gallery-photo.destroy', ['locale' => app()->getLocale(), 'id' => 1]) }}" method="POST"
+                                class="delete-form block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="delete-btn px-4 py-2 bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white text-sm rounded-lg">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                         <div class="text-sm text-gray-600">
                             <div>12 Oktober 2025</div>
@@ -58,9 +75,18 @@
                         kebugaran, dan kebersamaan.
                         Dipandu pelatih berpengalaman dengan suasana seru dan interaktif.</p>
                     <div class="flex justify-between">
-                        <div class="flex gap-2">
-                            <button class="px-4 py-2 bg-amber-500 text-white text-sm rounded-lg">Edit</button>
-                            <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg">Delete</button>
+                        <div class="flex gap-2 h-full">
+                            <a href="gallery-photo/edit"
+                                class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm rounded-lg">Edit</a>
+                            <form action="{{ route('admin.gallery-photo.destroy', ['locale' => app()->getLocale(), 'id' => 1]) }}" method="POST"
+                                class="delete-form block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="delete-btn px-4 py-2 bg-red-500 hover:bg-red-600 hover:cursor-pointer text-white text-sm rounded-lg">
+                                    Delete
+                                </button>
+                            </form>
                         </div>
                         <div class="text-sm text-gray-600">
                             <div>12 Oktober 2025</div>
