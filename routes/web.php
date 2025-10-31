@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
-
 Route::prefix('{locale?}')
     ->where(['locale' => 'id|en'])
     ->group(function () {
@@ -15,7 +14,6 @@ Route::prefix('{locale?}')
 
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', fn() => view('admin.index'))->name('index');
-
             Route::get('/order', fn() => view('admin.order.index'))->name('order');
 
             // ======== GALLERY PHOTO ========
@@ -23,9 +21,9 @@ Route::prefix('{locale?}')
                 Route::get('/', [GalleryPhotoController::class, 'index'])->name('index');
                 Route::get('/create', [GalleryPhotoController::class, 'create'])->name('create');
                 Route::post('/', [GalleryPhotoController::class, 'store'])->name('store');
-                Route::get('/{id}/edit', [GalleryPhotoController::class, 'edit'])->name('edit');
-                Route::put('/{id}', [GalleryPhotoController::class, 'update'])->name('update');
-                Route::delete('/{id}', [GalleryPhotoController::class, 'destroy'])->name('destroy');
+                Route::get('/{gallery}/edit', [GalleryPhotoController::class, 'edit'])->name('edit');
+                Route::put('/{gallery}', [GalleryPhotoController::class, 'update'])->name('update');
+                Route::delete('/{gallery}', [GalleryPhotoController::class, 'destroy'])->name('destroy');
             });
 
             // ======== GALLERY VIDEO ========
@@ -33,9 +31,9 @@ Route::prefix('{locale?}')
                 Route::get('/', [GalleryVideoController::class, 'index'])->name('index');
                 Route::get('/create', [GalleryVideoController::class, 'create'])->name('create');
                 Route::post('/', [GalleryVideoController::class, 'store'])->name('store');
-                Route::get('/{id}/edit', [GalleryVideoController::class, 'edit'])->name('edit');
-                Route::put('/{id}', [GalleryVideoController::class, 'update'])->name('update');
-                Route::delete('/{id}', [GalleryVideoController::class, 'destroy'])->name('destroy');
+                Route::get('/{video}/edit', [GalleryVideoController::class, 'edit'])->name('edit');
+                Route::put('/{video}', [GalleryVideoController::class, 'update'])->name('update');
+                Route::delete('/{video}', [GalleryVideoController::class, 'destroy'])->name('destroy');
             });
 
             // ======== TIMETABLE ========
@@ -55,7 +53,7 @@ Route::prefix('{locale?}')
 // (Opsional) Redirect otomatis untuk URL tanpa prefix locale
 Route::get('{path}', function (string $path) {
     if (preg_match('#^(id|en)(/|$)#', $path)) {
-        abort(404); // biar gak loop kalau route-nya memang tidak ada
+        abort(404);
     }
     $locale = session('locale', config('app.locale', 'id'));
     return redirect("/{$locale}/{$path}");
