@@ -11,6 +11,8 @@ Route::prefix('{locale?}')
     ->where(['locale' => 'id|en'])
     ->group(function () {
         Route::get('/', fn() => view('index'))->name('home');
+        Route::get('/login', fn() => view('auth.login'))->name('login');
+        Route::get('/register', fn() => view('auth.register'))->name('register');
 
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', fn() => view('admin.index'))->name('index');
