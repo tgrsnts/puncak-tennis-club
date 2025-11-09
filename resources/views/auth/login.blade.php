@@ -33,7 +33,7 @@
                         <h1 class="text-black text-xl lg:text-4xl font-bold mb-2 lg:mb-4">Log In</h1>
                         <p class="text-md text-gray-400">Please log In to continue to your account.</p>
                     </div>
-                    <form id="loginForm" method="POST" class="flex flex-col gap-3 flex-1">
+                    <form action="/{{ app()->getLocale() }}/authenticate" id="loginForm" method="POST" class="flex flex-col gap-3 flex-1">
                         @csrf
                         <div class="flex flex-col">
                             <label for="email">Email</label>

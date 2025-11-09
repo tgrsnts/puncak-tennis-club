@@ -3,6 +3,11 @@
 use App\Http\Controllers\Admin\GalleryPhotoController;
 use App\Http\Controllers\Admin\GalleryVideoController;
 use App\Http\Controllers\Admin\TimetableController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\JadwalController;
+use App\Models\Coach;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -10,9 +15,51 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('{locale?}')
     ->where(['locale' => 'id|en'])
     ->group(function () {
-        Route::get('/', fn() => view('index'))->name('home');
+        Route::get('/', function () {
+            $coaches = Coach::all();
+            return view('index', ['coaches' => $coaches]);
+        })->name('home');
+
         Route::get('/login', fn() => view('auth.login'))->name('login');
         Route::get('/register', fn() => view('auth.register'))->name('register');
+
+        Route::post('/authenticate', [AuthController::class, 'login'])->name('admin.login');
+        Route::post('/register', [AuthController::class, 'register'])->name('admin.register');
+
+        Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+        Route::group(['middleware' => 'auth'], function () {
+            Route::prefix('schedule')->name('schedule.')->group(function () {
+                Route::get('/', [JadwalController::class, 'index'])->name('index');
+                Route::get('/create', [JadwalController::class, 'create'])->name('create');
+                Route::post('/', [JadwalController::class, 'store'])->name('store');
+                Route::get('/{id}', [JadwalController::class, 'show'])->name('show');
+                Route::get('/{id}/edit', [JadwalController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [JadwalController::class, 'update'])->name('update');
+                Route::delete('/{id}', [JadwalController::class, 'destroy'])->name('destroy');
+            });
+
+            Route::prefix('booking')->name('booking.')->group(function () {
+                Route::get('/', [BookingController::class, 'index'])->name('index');
+                Route::get('/create', [BookingController::class, 'create'])->name('create');
+                Route::post('/', [BookingController::class, 'store'])->name('store');
+                Route::get('/{id}', [BookingController::class, 'show'])->name('show');
+                Route::get('/{id}/edit', [BookingController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [BookingController::class, 'update'])->name('update');
+                Route::delete('/{id}', [BookingController::class, 'destroy'])->name('destroy');
+            });
+
+            Route::prefix('history')->name('history.')->group(function () {
+                Route::get('/', [HistoryController::class, 'index'])->name('index');
+                Route::get('/create', [HistoryController::class, 'create'])->name('create');
+                Route::post('/', [HistoryController::class, 'store'])->name('store');
+                Route::get('/{id}', [HistoryController::class, 'show'])->name('show');
+                Route::get('/{id}/edit', [HistoryController::class, 'edit'])->name('edit');
+                Route::put('/{id}', [HistoryController::class, 'update'])->name('update');
+                Route::delete('/{id}', [HistoryController::class, 'destroy'])->name('destroy');
+            });
+        });
+
 
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', fn() => view('admin.index'))->name('index');
