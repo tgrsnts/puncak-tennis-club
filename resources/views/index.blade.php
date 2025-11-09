@@ -12,36 +12,55 @@
                         <h1 class="font-semibold text-green-600 text-3xl">Welcome</h1>
                         <p>Book your coaching tennis now!</p>
                     </div>
-                    <div class="flex gap-4 border border-gray-400 p-6 rounded-full">
-                        <div class="flex items-center gap-4 pr-8">
-                            <i class="fa-solid fa-location-dot w-4 text-gray-700"></i>
-                            <div class="flex flex-col">
-                                <div class="font-bold">Location</div>
-                                <div class="text-gray-700">Add Destination</div>
+
+                    <form action="/{{ app()->getLocale()}}/schedule" method="GET"
+                        class="flex gap-4 items-center border border-gray-400 px-12 py-6 rounded-full">
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                        <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+                        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js" defer></script>
+                        <div class="flex-1">
+                            <label class="block mb-1 font-semibold">Tanggal</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-calendar text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                                <input id="singleDate" type="text" name="date"
+                                    class="w-full rounded-md border border-gray-200 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
+                                    placeholder="6 Nov 2025" readonly />
                             </div>
+                            <script>
+                                flatpickr("#singleDate", {
+                                    locale: "id",
+                                    dateFormat: "j M Y", // 6 Nov 2025 — pakai "j F Y" kalau mau full bulan (November)
+                                    allowInput: false,
+                                    minDate: "today",
+                                    monthSelectorType: "static",
+                                    showMonths: 1, // kalender tampil 2 bulan berdampingan (mirip contoh)
+                                    disableMobile: true,
+                                    onReady: function(selectedDates, dateStr, instance) {
+                                        // auto isi default hari ini
+                                        const d = new Date();
+                                        instance.setDate(d, true);
+                                    }
+                                });
+                            </script>
                         </div>
                         <div class="flex items-center gap-4 pr-8">
-                            <i class="fa-solid fa-calendar w-4 text-gray-700"></i>
                             <div class="flex flex-col">
-                                <div class="font-bold">Date</div>
-                                <div class="text-gray-700">Choose Date</div>
+                                <label class="font-bold" for="coach">Coach</label>
+                                <select id="coach" name="coach_id"
+                                    class="text-gray-700 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-normal">
+                                    <option selected disabled> <i class="fa-solid fa-user w-4 text-gray-700"></i> Select
+                                        Coach</option>
+                                    @foreach ($coaches as $c)
+                                        <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
-                        <div class="flex items-center gap-4 pr-8">
-                            <i class="fa-solid fa-user w-4 text-gray-700"></i>
-                            <div class="flex flex-col">
-                                <div class="font-bold">Coach</div>
-                                <div class="text-gray-700">Select Coach</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4 pr-8">
-                            <i class="fa-solid fa-location-dot w-4 text-gray-700"></i>
-                            <div class="flex flex-col">
-                                <div class="font-bold">Location</div>
-                                <div class="text-gray-700">Add Destination</div>
-                            </div>
-                        </div>
-                    </div>
+                        <button type="submit"
+                            class="bg-green-normal hover:bg-green-normal-hover hover: cursor-pointer w-12 h-12 rounded-full">
+                            <i class="fa-solid fa-search w-4 text-white"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

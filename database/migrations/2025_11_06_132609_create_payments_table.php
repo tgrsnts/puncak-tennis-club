@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('booking_id');
+            $table->string('payment_method');
+            $table->decimal('amount', 10, 2);            
+            $table->enum('status', ['pending', 'paid', 'failed', 'expired'])->default('pending');
+            $table->string('payment_code')->nullable();
+            $table->string('payment_url')->nullable();
+            $table->timestamp('paid_at')->nullable();
+            $table->timestamp('expired_at')->nullable();
+            $table->timestamp('settlement_time');
+            $table->json('response_payload')->nullable();
             $table->timestamps();
         });
     }

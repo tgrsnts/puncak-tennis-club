@@ -360,12 +360,10 @@
                         <img src="{{ asset('/assets/images/avatar-biru.jpg') }}" class="w-8 h-8 rounded-full"
                             alt="">
                         <div>
-                            <div>
-                                <div>{{ Auth()->user()->name }}</div>
-                                @if (Auth()->user()->role == 'admin')
-                                    <div class="text-xs text-gray-500">Admin</div>
-                                @endif
-                            </div>
+                            <div>{{ Auth()->user()->name }}</div>
+                            @if (Auth()->user()->role == 'admin')
+                                <div class="text-xs text-gray-500">Admin</div>
+                            @endif
                         </div>
                     </a>
                 </li>

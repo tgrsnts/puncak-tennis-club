@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('timetable_id')->constrained()->cascadeOnDelete();;
             $table->string('user_id');
-            $table->string('status')->default('pending');
+            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
+            $table->integer('total_price')->default(0);
+            $table->integer('person_count')->default(1);
             $table->string('notes')->nullable();
             $table->timestamps();
         });
