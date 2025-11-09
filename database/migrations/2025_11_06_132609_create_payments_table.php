@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('payment_url')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamp('expired_at')->nullable();
-            $table->timestamp('settlement_time');
+            $table->timestamp('settlement_time')->nullable();
             $table->json('response_payload')->nullable();
             $table->timestamps();
         });

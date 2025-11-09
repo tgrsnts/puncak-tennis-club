@@ -42,7 +42,7 @@ Route::prefix('{locale?}')
             Route::prefix('booking')->name('booking.')->group(function () {
                 Route::get('/', [BookingController::class, 'index'])->name('index');
                 Route::get('/create', [BookingController::class, 'create'])->name('create');
-                Route::post('/', [BookingController::class, 'store'])->name('store');
+                Route::post('/{id}', [BookingController::class, 'store'])->name('store');
                 Route::get('/{id}', [BookingController::class, 'show'])->name('show');
                 Route::get('/{id}/edit', [BookingController::class, 'edit'])->name('edit');
                 Route::put('/{id}', [BookingController::class, 'update'])->name('update');

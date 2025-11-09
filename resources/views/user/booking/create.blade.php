@@ -79,7 +79,7 @@
 
     {{-- RIGHT: Booking Form --}}
     <div class="lg:col-span-2">
-      <form action="" method="POST" class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6 space-y-5" id="bookingForm">
+      <form action="{{ route('booking.store', ['locale' => app()->getLocale(), 'id' => $timetable->id]) }}" method="POST" class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6 space-y-5" id="bookingForm">
         @csrf
 
         {{-- Contact info --}}
@@ -186,6 +186,97 @@
         total.textContent = `Rp ${formatRupiah(price * qty)}`;
       });
     }
+  })();
+</script>
+<!-- Midtrans Snap integration: intercept form submit, request snap token from server, then open Snap modal -->
+<script>
+  (function(){
+    const form = document.getElementById('bookingForm');
+    const MIDTRANS_CLIENT_KEY = "{{ env('MIDTRANS_CLIENT_KEY') }}"; // set in .env
+
+    function loadSnap(clientKey){
+      return new Promise((resolve, reject) => {
+        if (window.snap) return resolve();
+        if (!clientKey) return reject(new Error('Midtrans client key not set'));
+        const s = document.createElement('script');
+        s.src = 'https://app.sandbox.midtrans.com/snap/snap.js';
+        s.setAttribute('data-client-key', clientKey);
+        s.onload = () => resolve();
+        s.onerror = (e) => reject(e);
+        document.head.appendChild(s);
+      });
+    }
+
+    async function handleSubmit(e){
+      e.preventDefault();
+      if (!form) return;
+
+      // prevent double submit
+      if (form.dataset.processing === '1') return;
+      form.dataset.processing = '1';
+
+      const url = form.action;
+      const fd = new FormData(form);
+
+      // get csrf token from hidden input
+      const csrfInput = form.querySelector('input[name="_token"]');
+      const csrf = csrfInput ? csrfInput.value : '';
+
+      try{
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrf,
+          },
+          body: fd
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          console.error('Booking request failed', res.status, text);
+          alert('Gagal membuat booking. Silakan coba lagi.');
+          form.dataset.processing = '0';
+          return;
+        }
+
+        const data = await res.json();
+
+        // expected { snap_token: '...', finish_redirect: '...' }
+        if (data.snap_token) {
+          await loadSnap(MIDTRANS_CLIENT_KEY);
+          window.snap.pay(data.snap_token, {
+            onSuccess: function(result){
+              // redirect to finish page if provided
+              if (data.finish_redirect) window.location.href = data.finish_redirect;
+              else window.location.reload();
+            },
+            onPending: function(result){
+              if (data.finish_redirect) window.location.href = data.finish_redirect;
+              else alert('Payment pending. Silakan cek status pemesanan.');
+            },
+            onError: function(result){
+              alert('Terjadi kesalahan saat proses pembayaran.');
+            },
+            onClose: function(){
+              alert('Pembayaran ditutup. Anda dapat melanjutkan atau mencoba lagi.');
+            }
+          });
+        } else if (data.redirect) {
+          window.location.href = data.redirect;
+        } else {
+          alert('Respons tidak valid dari server.');
+        }
+      } catch(err){
+        console.error(err);
+        alert('Terjadi kesalahan. Coba lagi.');
+      } finally {
+        form.dataset.processing = '0';
+      }
+    }
+
+    if (form) form.addEventListener('submit', handleSubmit);
   })();
 </script>
 @endsection
