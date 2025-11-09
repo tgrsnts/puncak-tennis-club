@@ -76,22 +76,28 @@ class DatabaseSeeder extends Seeder
 
         Booking::create([
             'timetable_id' => 1,
-            'user_id' => 2,
-            'status' => 'confirmed',
-            'total_price' => 100000,      
-            'person_count' => 1      
+            'user_id' => 1,
+            'guest_name' => 'Tegar Santoso',
+            'guest_phone' => '0879076582341',
+            'person_count' => 1,
+            'notes' => 'Seeder booking',
         ]);
 
         Payment::create([
             'booking_id' => 1,
             'payment_method' => 'credit_card',
-            'amount' => 100000,
+            'gross_amount' => 100000,
             'status' => 'paid',
-            'payment_code' => 'ABC123',
-            'payment_url' => 'https://paymentgateway.com/pay/ABC123',
+            'payment_code' => 'PAY123456',
+            'order_id' => 'ORDER123456',
+            'payment_url' => 'https://paymentgateway.com/pay/PAY123456',
             'paid_at' => now(),
-            'response_payload' => json_encode(['transaction_id' => 'TXN123456']),
+            'expired_at' => now()->addHours(2),
             'settlement_time' => now(),
+            'response_payload' => [
+                'transaction_id' => 'TXN123456',
+                'payment_status' => 'success',
+            ],
         ]);
     }
 }

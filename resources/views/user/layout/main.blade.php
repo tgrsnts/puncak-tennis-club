@@ -20,19 +20,26 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <!-- Navbar -->
-
-
-    @include('user.layout.partials.navbar')
-    <div class="flex transition-all duration-300">
-        @include('user.layout.partials.sidebar')
-        <div id="mainContent" class="mt-20 ml-80 flex flex-col w-full transition-all duration-300">
-            @yield('content')
+    @if (Auth()->user())
+        @include('user.layout.partials.navbar')
+        <div class="flex transition-all duration-300">
+            @include('user.layout.partials.sidebar')
+            <div id="mainContent" class="mt-20 ml-80 flex flex-col w-full transition-all duration-300">
+                @yield('content')
+            </div>
         </div>
-    </div>
-
+    @else
+        @include('layout.partials.navbar')
+        <div class="flex transition-all duration-300">        
+            <div id="mainContent" class="mt-20 flex flex-col w-full transition-all duration-300">
+                @yield('content')
+            </div>
+        </div>
+    @endif
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.getElementById('navbar');
             const sidebar = document.getElementById('sidebar');
             const toggleBtn = document.getElementById('sidebarToggle');

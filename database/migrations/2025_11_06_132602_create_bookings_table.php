@@ -15,9 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('timetable_id')->constrained()->cascadeOnDelete();;
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('guest_name')->nullable();
+            $table->string('guest_phone', 50)->nullable();
+            $table->string('guest_email')->nullable();
             $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
             $table->integer('total_price')->default(0);
             $table->integer('person_count')->default(1);
+            $table->uuid('public_code')->unique()->nullable();
             $table->string('notes')->nullable();
             $table->timestamps();
         });

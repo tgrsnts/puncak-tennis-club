@@ -23,7 +23,7 @@
                     </span>
                 @endif
 
-                <a href="/" class="ml-2 text-blue-600 hover:underline">Reset</a>
+                <a href="{{ route('schedule.index', app()->getLocale()) }}" class="ml-2 text-blue-600 hover:underline">Reset</a>
             </div>
         @endif
 

@@ -7,7 +7,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\MidtransNotificationController;
 use App\Models\Coach;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
@@ -28,9 +30,21 @@ Route::prefix('{locale?}')
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+        Route::prefix('schedule')->name('schedule.')->group(function () {
+            Route::get('/', [JadwalController::class, 'index'])->name('index');
+        });
+
+        Route::prefix('booking')->name('booking.')->group(function () {
+            Route::get('/', [BookingController::class, 'index'])->name('index');         
+            Route::post('/{booking}/snap', [BookingController::class, 'snap'])->name('snap');
+            Route::get('/create', [BookingController::class, 'create'])->name('create');
+            Route::post('/{timetable}', [BookingController::class, 'store'])->name('store');
+            Route::get('/success/{booking}/{code}', [BookingController::class, 'success'])->name('success');
+            Route::get('/s/{code}', [BookingController::class, 'publicShow'])->name('public');
+        });
+
         Route::group(['middleware' => 'auth'], function () {
             Route::prefix('schedule')->name('schedule.')->group(function () {
-                Route::get('/', [JadwalController::class, 'index'])->name('index');
                 Route::get('/create', [JadwalController::class, 'create'])->name('create');
                 Route::post('/', [JadwalController::class, 'store'])->name('store');
                 Route::get('/{id}', [JadwalController::class, 'show'])->name('show');
@@ -40,10 +54,7 @@ Route::prefix('{locale?}')
             });
 
             Route::prefix('booking')->name('booking.')->group(function () {
-                Route::get('/', [BookingController::class, 'index'])->name('index');
-                Route::get('/create', [BookingController::class, 'create'])->name('create');
-                Route::post('/{id}', [BookingController::class, 'store'])->name('store');
-                Route::get('/{id}', [BookingController::class, 'show'])->name('show');
+                Route::get('/{booking}', [BookingController::class, 'show'])->name('show');
                 Route::get('/{id}/edit', [BookingController::class, 'edit'])->name('edit');
                 Route::put('/{id}', [BookingController::class, 'update'])->name('update');
                 Route::delete('/{id}', [BookingController::class, 'destroy'])->name('destroy');
@@ -94,6 +105,12 @@ Route::prefix('{locale?}')
                 Route::put('/{id}', [TimetableController::class, 'update'])->name('update');
                 Route::delete('/{id}', [TimetableController::class, 'destroy'])->name('destroy');
             });
+            
+            // Admin payment control for testing
+            Route::prefix('payment')->name('payment.')->group(function () {
+                Route::post('/{payment}/settle', [\App\Http\Controllers\Admin\PaymentController::class, 'settle'])->name('settle');
+                Route::post('/{payment}/expire', [\App\Http\Controllers\Admin\PaymentController::class, 'expire'])->name('expire');
+            });
         });
 
         Route::get('/profile', fn() => view('admin.profile.index'))->name('profile');
@@ -107,3 +124,7 @@ Route::get('{path}', function (string $path) {
     $locale = session('locale', config('app.locale', 'id'));
     return redirect("/{$locale}/{$path}");
 })->where('path', '.*');
+
+Route::post('/midtrans/notify', [MidtransNotificationController::class, 'handle'])
+    ->withoutMiddleware([VerifyCsrfToken::class])   // <— penting
+    ->name('midtrans.notify');

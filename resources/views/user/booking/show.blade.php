@@ -1,5 +1,5 @@
 @extends('user.layout.main')
-@section('title', 'Detail Riwayat Booking')
+@section('title', 'Detail Booking')
 
 @section('content')
     <section class="min-h-screen font-poppins w-full p-4 pb-20 bg-[#F4F5F9]">
@@ -7,12 +7,64 @@
 
             {{-- Header --}}
             <div class="flex items-center justify-between">
-                <h2 class="text-2xl font-semibold">Detail Riwayat Booking</h2>
-                <a href="{{ route('history.index', ['locale' => app()->getLocale()]) }}"
-                    class="text-sm font-semibold text-gray-700 hover:underline">
-                    ← Kembali ke Riwayat
-                </a>
+                <h2 class="text-2xl font-semibold">Detail Booking</h2>
+                
             </div>
+
+            {{-- Himbauan simpan link --}}
+            <div class="rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 shadow-sm p-4 flex items-start gap-3">
+                <i class="fa-solid fa-link mt-1"></i>
+                <div class="flex-1">
+                    <div class="font-semibold">Simpan tautan halaman ini</div>
+                    <p class="text-sm">
+                        Ini adalah halaman bukti booking Anda. <strong>Bookmark</strong> atau simpan link ini agar mudah
+                        dibuka kembali,
+                        terutama jika Anda belum login.
+                    </p>
+                    <div class="mt-3 flex flex-wrap items-center gap-2">
+                        <button id="copyLink"
+                            class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold bg-amber-600 text-white hover:bg-amber-700">
+                            <i class="fa-regular fa-copy"></i> Salin Link Halaman
+                        </button>
+                        <span id="copyFeedback" class="text-xs text-amber-800 hidden">Tersalin!</span>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                (function() {
+                    const btn = document.getElementById('copyLink');
+                    const tip = document.getElementById('copyFeedback');
+
+                    async function copyUrl() {
+                        const url = window.location.href; // pakai URL saat ini
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            if (tip) {
+                                tip.classList.remove('hidden');
+                                setTimeout(() => tip.classList.add('hidden'), 1500);
+                            }
+                        } catch (e) {
+                            // fallback kalau clipboard gagal
+                            const ta = document.createElement('textarea');
+                            ta.value = url;
+                            document.body.appendChild(ta);
+                            ta.select();
+                            try {
+                                document.execCommand('copy');
+                            } catch (_) {}
+                            document.body.removeChild(ta);
+                            if (tip) {
+                                tip.textContent = 'Link disalin (fallback).';
+                                tip.classList.remove('hidden');
+                                setTimeout(() => tip.classList.add('hidden'), 1500);
+                            }
+                        }
+                    }
+
+                    btn?.addEventListener('click', copyUrl);
+                })();
+            </script>
 
             {{-- Status + Order --}}
             <div class="rounded-2xl bg-white border border-gray-200 shadow-sm p-5">
@@ -169,79 +221,37 @@
         <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
         </script>
         <script>
-            (function() {
-                const btn = document.getElementById('payNow');
-                if (!btn) return;
+            document.getElementById('payNow')?.addEventListener('click', async () => {
+                try {
+                    const url =
+                    "{{ route('booking.snap', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}";
+                    const payload = new FormData();
+                    payload.append('person_count', "{{ $booking->person_count }}");
 
-                // Token yang tersimpan saat create (payment_code)
-                const existingToken = @json($booking->payment->payment_code);
-
-                // Helper untuk buka popup Snap
-                function openSnap(token) {
-                    if (!window.snap || !token) {
-                        alert('Gagal memuat pembayaran.');
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: payload
+                    });
+                    const json = await res.json();
+                    if (!json.token) {
+                        alert('Gagal memulai pembayaran.');
                         return;
                     }
-                    window.snap.pay(token, {
-                        onSuccess: function() {
-                            window.location.reload();
-                        },
-                        onPending: function() {
-                            window.location.reload();
-                        },
-                        onError: function() {
-                            alert('Terjadi kesalahan pembayaran. Coba lagi.');
-                        },
-                        onClose: function() {
-                            /* user menutup popup, diamkan saja */
-                        }
+
+                    window.snap.pay(json.token, {
+                        onSuccess: () => window.location.reload(),
+                        onPending: () => window.location.reload(),
+                        onError: () => alert('Terjadi kesalahan pembayaran.'),
+                        onClose: () => {}
                     });
+                } catch (e) {
+                    console.error(e);
+                    alert('Tidak dapat memproses pembayaran saat ini.');
                 }
-
-                // Regenerasi token (kalau token lama invalid/expire)
-                async function regenerateAndOpen() {
-                    try {
-                        const url =
-                            "{{ route('booking.snap', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}";
-                        const res = await fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                            // body tidak perlu; server bangun payload dari data booking
-                        });
-
-                        if (!res.ok) throw new Error('HTTP ' + res.status);
-                        const json = await res.json();
-
-                        // Perhatikan: controller kamu mengembalikan "snap_token"
-                        const token = json.snap_token || json.token; // fallback kalau suatu saat berubah
-                        if (!token) throw new Error('Token kosong');
-
-                        openSnap(token);
-                    } catch (e) {
-                        console.error(e);
-                        alert('Tidak dapat memproses pembayaran saat ini.');
-                    }
-                }
-
-                btn.addEventListener('click', function() {
-                    // 1) Coba pakai token yang sudah ada
-                    if (existingToken) {
-                        try {
-                            openSnap(existingToken);
-                            return;
-                        } catch (_) {
-                            // 2) Kalau gagal (mis. token expired), regenerate
-                            regenerateAndOpen();
-                        }
-                    } else {
-                        // Tidak ada token tersimpan → regenerate
-                        regenerateAndOpen();
-                    }
-                });
-            })();
+            });
         </script>
     @endif
-
 @endsection

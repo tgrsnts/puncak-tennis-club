@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     protected $fillable = [
-        'user_id',
         'timetable_id',
+        'user_id',
         'status',
-        'payment_status',
-        'payment_id',
         'total_price',
+        'person_count',
+        'notes',
+        'guest_name',
+        'guest_phone',
+        'public_code',
     ];
 
     public function user()

@@ -354,19 +354,20 @@
                     });
                 </script>
 
-
-                <li class="text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
-                    <a href="/profile" class="flex gap-4 items-center">
-                        <img src="{{ asset('/assets/images/avatar-biru.jpg') }}" class="w-8 h-8 rounded-full"
-                            alt="">
-                        <div>
-                            <div>{{ Auth()->user()->name }}</div>
-                            @if (Auth()->user()->role == 'admin')
-                                <div class="text-xs text-gray-500">Admin</div>
-                            @endif
-                        </div>
-                    </a>
-                </li>
+                @if (Auth()->user())
+                    <li class="text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                        <a href="/profile" class="flex gap-4 items-center">
+                            <img src="{{ asset('/assets/images/avatar-biru.jpg') }}" class="w-8 h-8 rounded-full"
+                                alt="">
+                            <div>
+                                <div>{{ Auth()->user()->name }}</div>
+                                @if (Auth()->user()->role == 'admin')
+                                    <div class="text-xs text-gray-500">Admin</div>
+                                @endif
+                            </div>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
     </div>

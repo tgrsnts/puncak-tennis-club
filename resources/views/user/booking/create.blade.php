@@ -79,8 +79,10 @@
 
     {{-- RIGHT: Booking Form --}}
     <div class="lg:col-span-2">
-      <form action="{{ route('booking.store', ['locale' => app()->getLocale(), 'id' => $timetable->id]) }}" method="POST" class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6 space-y-5" id="bookingForm">
+      <form action="{{ route('booking.store', ['locale' => app()->getLocale(), 'timetable' => $timetable->id]) }}" method="POST" class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6 space-y-5" id="bookingForm">
         @csrf
+        
+        @php $user = auth()->user(); @endphp
 
         {{-- Contact info --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -88,21 +90,21 @@
             <label class="block text-sm text-gray-600 mb-1">Nama Lengkap</label>
             <input type="text" name="name" required
               class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
-              placeholder="Nama kamu" value="{{ Auth()->user()->name }}">
+              placeholder="Nama kamu" value="{{ $user->name ?? '' }}">
           </div>
           <div>
             <label class="block text-sm text-gray-600 mb-1">No. WhatsApp</label>
             <input type="tel" name="phone" required
               class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
-              placeholder="08xxxxxxxxxx" value="{{ Auth()->user()->telepon }}">
+              placeholder="08xxxxxxxxxx" value="{{ $user->telepon ?? '' }}">
           </div>
         </div>
 
-        {{-- Participants & Note --}}
+        {{-- person_count & Note --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm text-gray-600 mb-1">Jumlah Peserta</label>
-            <input type="number" min="1" max="{{ $remain ?: 1 }}" value="1" name="participants" id="participants"
+            <input type="number" min="1" max="{{ $remain ?: 1 }}" value="1" name="person_count" id="person_count"
               class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
               {{ $isFull ? 'disabled' : '' }}>
             @if($isFull)
@@ -170,7 +172,7 @@
 <script>
   (function(){
   const price = 75000;
-    const input = document.getElementById('participants');
+    const input = document.getElementById('person_count');
     const line  = document.getElementById('priceLine');
     const total = document.getElementById('totalPrice');
 
