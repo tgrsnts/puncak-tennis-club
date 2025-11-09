@@ -41,7 +41,7 @@
                 @if (!empty($booking->payment?->payment_type))
                     <div class="mt-3 text-sm text-gray-600">
                         Metode Pembayaran: <span
-                            class="font-medium text-gray-800">{{ strtoupper($booking->payment->payment_type) }}</span>
+                            class="font-medium text-gray-800">{{ strtoupper($booking->payment->payment_type) }} - {{ $booking->payment->va_bank }}</span>
                     </div>
                 @endif
             </div>
