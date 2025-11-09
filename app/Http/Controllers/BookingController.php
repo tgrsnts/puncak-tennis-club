@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Timetable;
 use App\Models\Booking;
 use App\Models\Payment;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BookingController extends Controller
 {
@@ -348,4 +350,47 @@ class BookingController extends Controller
             'success_url'     => $success,
         ];
     }
+
+    public function ticket($locale = null, Booking $booking)
+{
+    // otorisasi sederhana: pemilik atau guest link (opsional, sesuaikan kebutuhanmu)
+    // abort_unless(auth()->check() && auth()->id() === $booking->user_id, 403);
+
+    $booking->load(['timetable.coach', 'payment']);
+
+    // pastikan sudah layak terbit e-ticket
+    abort_if(($booking->status !== 'confirmed') || ($booking->payment?->status !== 'paid'), 400, 'Tiket belum tersedia.');
+
+    // QR menuju link publik (buat verifikasi cepat di gate)
+    $publicUrl = route('booking.public', ['locale' => $locale, 'code' => $booking->public_code]);
+    $qrSvg = QrCode::format('svg')->size(140)->margin(1)->generate($publicUrl);
+
+    $pdf = Pdf::loadView('pdf.ticket', [
+        'booking'   => $booking,
+        'qrSvg'     => $qrSvg,
+        'publicUrl' => $publicUrl,
+    ])->setPaper('a5', 'portrait'); // A5 nyaman untuk e-ticket
+
+    $fileName = 'e-ticket-'.$booking->guest_name.'.pdf';
+    return $pdf->download($fileName);
+    // atau ->stream($fileName) jika ingin buka di browser
+}
+
+public function invoice($locale = null, Booking $booking)
+{
+    $booking->load(['timetable.coach', 'payment']);
+
+    // invoice boleh untuk pending/paid
+    $publicUrl = route('booking.public', ['locale' => $locale, 'code' => $booking->public_code]);
+    $qrSvg = QrCode::format('svg')->size(110)->margin(1)->generate($publicUrl);
+
+    $pdf = Pdf::loadView('pdf.invoice', [
+        'booking'   => $booking,
+        'qrSvg'     => $qrSvg,
+        'publicUrl' => $publicUrl,
+    ])->setPaper('a4', 'portrait');
+
+    $fileName = 'invoice-'.$booking->guest_name.'.pdf';
+    return $pdf->download($fileName);
+}
 }

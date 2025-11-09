@@ -140,13 +140,11 @@
                 </div>
                 <div class="flex gap-3">
                     {{-- Download E-Ticket / Invoice (sesuaikan route) --}}
-                    {{-- <a href="{{ route('booking.ticket', ['locale' => app()->getLocale(), 'id' => $booking->id]) }}"  --}}
-                    <a href=""
+                     <a href="{{ route('booking.ticket', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}" 
                         class="rounded-xl px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200">
                         Download E-Tiket
                     </a>
-                    {{-- <a href="{{ route('booking.invoice', ['locale' => app()->getLocale(), 'id' => $booking->id]) }}" --}}
-                    <a href=""
+                    <a href="{{ route('booking.invoice', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}"                 
                         class="rounded-xl px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200">
                         Download Invoice
                     </a>

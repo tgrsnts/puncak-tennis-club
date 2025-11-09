@@ -35,12 +35,14 @@ Route::prefix('{locale?}')
         });
 
         Route::prefix('booking')->name('booking.')->group(function () {
-            Route::get('/', [BookingController::class, 'index'])->name('index');         
+            Route::get('/', [BookingController::class, 'index'])->name('index');
             Route::post('/{booking}/snap', [BookingController::class, 'snap'])->name('snap');
             Route::get('/create', [BookingController::class, 'create'])->name('create');
             Route::post('/{timetable}', [BookingController::class, 'store'])->name('store');
             Route::get('/success/{booking}/{code}', [BookingController::class, 'success'])->name('success');
             Route::get('/s/{code}', [BookingController::class, 'publicShow'])->name('public');
+            Route::get('/ticket/{booking}', [BookingController::class, 'ticket'])->name('ticket');
+            Route::get('/invoice/{booking}', [BookingController::class, 'invoice'])->name('invoice');
         });
 
         Route::group(['middleware' => 'auth'], function () {
@@ -105,7 +107,7 @@ Route::prefix('{locale?}')
                 Route::put('/{id}', [TimetableController::class, 'update'])->name('update');
                 Route::delete('/{id}', [TimetableController::class, 'destroy'])->name('destroy');
             });
-            
+
             // Admin payment control for testing
             Route::prefix('payment')->name('payment.')->group(function () {
                 Route::post('/{payment}/settle', [\App\Http\Controllers\Admin\PaymentController::class, 'settle'])->name('settle');

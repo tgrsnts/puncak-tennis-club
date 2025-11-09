@@ -8,29 +8,31 @@
             {{-- Header --}}
             <div class="flex items-center justify-between">
                 <h2 class="text-2xl font-semibold">Detail Booking</h2>
-                
+
             </div>
 
             {{-- Himbauan simpan link --}}
-            <div class="rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 shadow-sm p-4 flex items-start gap-3">
-                <i class="fa-solid fa-link mt-1"></i>
-                <div class="flex-1">
-                    <div class="font-semibold">Simpan tautan halaman ini</div>
-                    <p class="text-sm">
-                        Ini adalah halaman bukti booking Anda. <strong>Bookmark</strong> atau simpan link ini agar mudah
-                        dibuka kembali,
-                        terutama jika Anda belum login.
-                    </p>
-                    <div class="mt-3 flex flex-wrap items-center gap-2">
-                        <button id="copyLink"
-                            class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold bg-amber-600 text-white hover:bg-amber-700">
-                            <i class="fa-regular fa-copy"></i> Salin Link Halaman
-                        </button>
-                        <span id="copyFeedback" class="text-xs text-amber-800 hidden">Tersalin!</span>
+            @if ($booking->user_id === null)
+                <div
+                    class="rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 shadow-sm p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-link mt-1"></i>
+                    <div class="flex-1">
+                        <div class="font-semibold">Simpan tautan halaman ini</div>
+                        <p class="text-sm">
+                            Ini adalah halaman bukti booking Anda. <strong>Bookmark</strong> atau simpan link ini agar mudah
+                            dibuka kembali,
+                            terutama jika Anda belum login.
+                        </p>
+                        <div class="mt-3 flex flex-wrap items-center gap-2">
+                            <button id="copyLink"
+                                class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold bg-amber-600 text-white hover:bg-amber-700">
+                                <i class="fa-regular fa-copy"></i> Salin Link Halaman
+                            </button>
+                            <span id="copyFeedback" class="text-xs text-amber-800 hidden">Tersalin!</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            @endif
             <script>
                 (function() {
                     const btn = document.getElementById('copyLink');
@@ -93,7 +95,8 @@
                 @if (!empty($booking->payment?->payment_type))
                     <div class="mt-3 text-sm text-gray-600">
                         Metode Pembayaran: <span
-                            class="font-medium text-gray-800">{{ strtoupper($booking->payment->payment_type) }} - {{ $booking->payment->va_bank }}</span>
+                            class="font-medium text-gray-800">{{ strtoupper($booking->payment->payment_type) }} -
+                            {{ $booking->payment->va_bank }}</span>
                     </div>
                 @endif
             </div>
@@ -192,13 +195,11 @@
                 </div>
                 <div class="flex gap-3">
                     {{-- Download E-Ticket / Invoice (sesuaikan route) --}}
-                    {{-- <a href="{{ route('booking.ticket', ['locale' => app()->getLocale(), 'id' => $booking->id]) }}"  --}}
-                    <a href=""
+                    <a href="{{ route('booking.ticket', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}"
                         class="rounded-xl px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200">
                         Download E-Tiket
                     </a>
-                    {{-- <a href="{{ route('booking.invoice', ['locale' => app()->getLocale(), 'id' => $booking->id]) }}" --}}
-                    <a href=""
+                    <a href="{{ route('booking.invoice', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}"
                         class="rounded-xl px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200">
                         Download Invoice
                     </a>
@@ -224,7 +225,7 @@
             document.getElementById('payNow')?.addEventListener('click', async () => {
                 try {
                     const url =
-                    "{{ route('booking.snap', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}";
+                        "{{ route('booking.snap', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}";
                     const payload = new FormData();
                     payload.append('person_count', "{{ $booking->person_count }}");
 
