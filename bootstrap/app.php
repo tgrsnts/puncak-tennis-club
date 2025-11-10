@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest' => RedirectIfAuthenticated::class,
             'admin' => AdminMiddleware::class
         ]);
+        $middleware->trustProxies(at: '*', headers: 0b11111);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
