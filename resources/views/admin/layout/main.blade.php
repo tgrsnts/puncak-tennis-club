@@ -8,7 +8,7 @@
     <title>
         @yield('title', 'Default Title')
     </title>
-    @vite('resources/css/app.css')
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('style')
 
     <!-- Icons -->

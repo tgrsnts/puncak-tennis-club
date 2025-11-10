@@ -7,7 +7,7 @@
     <title>
         @yield('title', 'Default Title')
     </title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @stack('styles')
     <!-- Icons -->
@@ -24,9 +24,6 @@
     </main>
 
     @include('layout.partials.footer')
-
-    <!-- Main JS  -->
-    <script src="{{ asset('assets/js/app.js') }}"></script>
 
     @stack('scripts')
 
