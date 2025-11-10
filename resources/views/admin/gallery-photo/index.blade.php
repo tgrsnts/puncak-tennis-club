@@ -21,7 +21,7 @@
                         @php
                             $src = $gallery->img
                                 ? asset($gallery->img)
-                                : asset('assets/images/placeholder-image.png');
+                                : asset('assets/images/placeholder-image.webp');
                         @endphp
 
                         <img class="rounded-t-lg w-full h-48 object-cover" src="{{ $src }}"

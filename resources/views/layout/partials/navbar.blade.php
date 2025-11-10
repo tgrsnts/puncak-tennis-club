@@ -2,7 +2,7 @@
     <div
         class="relative flex lg:flex-row flex-col md:flex-wrap justify-between lg:justify-start md:items-center bg-transparent md:mx-auto px-4 md:px-36 py-4 lg:h-20 overflow-hidden">
         <a href="/" class="flex items-center gap-2 text-2xl whitespace-nowrap">
-            <img class="h-8" src="{{ asset('assets/image/logo-navbar.png') }}" alt="">
+            <img class="h-8" src="{{ asset('assets/image/logo-navbar.webp') }}" alt="">
             <p class="font-semibold text-white" id="navbar-title">PUNCAK TENNIS CLUB</p>
         </a>
 

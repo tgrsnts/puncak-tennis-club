@@ -2,7 +2,7 @@
     <div class="container mx-auto flex flex-wrap">
         <!-- Kolom Pertama -->
         <div class="w-full lg:w-1/2 lg:pr-4">            
-            <img src="{{ asset('assets/images/logo-puncak-tennis-club.png') }}" class="h-8 lg:h-16" alt="">
+            <img src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}" class="h-8 lg:h-16" alt="">
             {{-- <p class="font-poppins text-white text-justify mb-4">
                 Find your tennis place
             </p> --}}

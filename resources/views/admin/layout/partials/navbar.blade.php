@@ -4,7 +4,7 @@
 
         {{-- <div class="relative flex w-80 justify-center">
             <a href="/" class="flex items-center whitespace-nowrap text-2xl">
-                <img class="h-8" src="{{ asset('assets/image/logo-ananta-farm-putih.png') }}" alt="">
+                <img class="h-8" src="{{ asset('assets/image/logo-ananta-farm-putih.webp') }}" alt="">
             </a>
             <button id="sidebarToggle"
                 class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-slate-300 text-2xl focus:outline-none z-10">
@@ -244,7 +244,7 @@
                     <button id="lang-toggle"
                         class="flex items-center gap-2 text-gray-600 font-medium text-sm hover:bg-gray-300 px-4 py-2 rounded-lg"
                         aria-haspopup="true" aria-expanded="false">
-                        <img id="lang-flag" src="https://flagcdn.com/w20/id.png" width="20" height="15"
+                        <img id="lang-flag" src="https://flagcdn.com/w20/id.webp" width="20" height="15"
                             alt="ID" class="w-5 h-4">
                         <span id="lang-label">Bahasa Indonesia</span>
                         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -259,13 +259,13 @@
                         class="hidden absolute right-0 mt-2 w-48 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
                         <button type="button" data-lang="id"
                             class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-t-lg">
-                            <img src="https://flagcdn.com/w80/id.png" width="20" height="15" alt="Indonesia"
+                            <img src="https://flagcdn.com/w80/id.webp" width="20" height="15" alt="Indonesia"
                                 class="w-5 h-4">
                             Indonesia
                         </button>
                         <button type="button" data-lang="en"
                             class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-b-lg">
-                            <img src="https://flagcdn.com/w80/gb.png" width="20" height="15" alt="English (UK)"
+                            <img src="https://flagcdn.com/w80/gb.webp" width="20" height="15" alt="English (UK)"
                                 class="w-5 h-4">
                             English
                         </button>
@@ -278,12 +278,12 @@
                         id: {
                             profile: "Profil",
                             label: "Bahasa Indonesia",
-                            flag: "https://flagcdn.com/w80/id.png"
+                            flag: "https://flagcdn.com/w80/id.webp"
                         },
                         en: {
                             profile: "Profile",
                             label: "English",
-                            flag: "https://flagcdn.com/w80/gb.png"
+                            flag: "https://flagcdn.com/w80/gb.webp"
                         }
                     };
 
@@ -357,7 +357,7 @@
 
                 <li class="text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
                     <a href="/profile" class="flex gap-4 items-center">
-                        <img src="{{ asset('/assets/images/avatar-biru.jpg') }}" class="w-8 h-8 rounded-full"
+                        <img src="{{ asset('/assets/images/avatar-biru.webp') }}" class="w-8 h-8 rounded-full"
                             alt="">
                         <div>
                             <div>

@@ -28,7 +28,7 @@
                 class="bg-white rounded-3xl shadow-xl overflow-hidden w-full max-w-5xl
               grid grid-cols-1 md:grid-cols-2 md:h-[560px]">
                 <div class="p-8 flex flex-col gap-4">
-                    <img class="w-20" src="{{ asset('assets/images/puncak-tennisclub-green.png') }}" alt="">
+                    <img class="w-20" src="{{ asset('assets/images/puncak-tennisclub-green.webp') }}" alt="">
                     <div>
                         <h1 class="text-black text-xl lg:text-4xl font-bold mb-2 lg:mb-4">Log In</h1>
                         <p class="text-md text-gray-400">Please log In to continue to your account.</p>
@@ -72,7 +72,7 @@
 
 
                 <div class="hidden md:block"> <!-- bisa disembunyikan di mobile -->
-                    <img src="{{ asset('assets/images/anastasia-chistik--9Vy4fR_Xo0-unsplash.jpg') }}" alt=""
+                    <img src="{{ asset('assets/images/anastasia-chistik--9Vy4fR_Xo0-unsplash.webp') }}" alt=""
                         class="w-full h-full object-cover" />
                 </div>
             </div>
