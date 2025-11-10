@@ -22,19 +22,21 @@ class RegisterController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        // buat user minimal
-        $user = User::create([
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 'user', // default
-        ]);
+        try {
+            $user = User::create([
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => 'user',
+            ]);
+            session(['register_user_id' => $user->id]);
 
-        // simpan id user di session sementara
-        session(['register_user_id' => $user->id]);
-
-        // lanjut ke step 2
-        return redirect()->route('register.step2', ['locale' => app()->getLocale()]);
+            return redirect()->route('register.step2', ['locale' => app()->getLocale()])
+                ->with('success', 'Akun berhasil dibuat! Silakan lengkapi data diri.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal membuat akun. Coba lagi nanti.');
+        }
     }
+
 
     // STEP 2 - lengkapi data diri
     public function showStep2($locale = null)
@@ -65,9 +67,9 @@ class RegisterController extends Controller
         session()->forget('register_user_id');
 
         // opsional auto login
-        // auth()->login($user);
+        auth()->login($user);
 
         return redirect()->route('home', ['locale' => app()->getLocale()])
-            ->with('success', 'Registrasi berhasil! Silakan login.');
+            ->with('success', 'Registrasi berhasil! Selamat datang, ' . $user->name . '!');
     }
 }

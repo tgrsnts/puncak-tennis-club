@@ -51,6 +51,7 @@
                 });
             </script>
         @endif
+
         @if (session('success'))
             <script>
                 Swal.fire({
@@ -58,6 +59,19 @@
                     toast: true,
                     position: 'top-end',
                     title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            </script>
+        @endif
+
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    title: '{{ session('error') }}',
                     showConfirmButton: false,
                     timer: 2000
                 });

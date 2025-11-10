@@ -23,7 +23,7 @@
                     </span>
                 @endif
 
-                <a href="{{ route('schedule.index', app()->getLocale()) }}" class="ml-2 text-blue-600 hover:underline">Reset</a>
+                <a href="{{ route('booking.index', app()->getLocale()) }}" class="ml-2 text-blue-600 hover:underline">Reset</a>
             </div>
         @endif
 
@@ -136,7 +136,7 @@
                                 class="rounded-xl bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">
                                 Reset Filter
                             </a>
-                            <a href="{{ route('schedule.index', ['locale' => app()->getLocale()]) }}"
+                            <a href="{{ route('booking.index', ['locale' => app()->getLocale()]) }}"
                                 class="rounded-xl bg-green-normal px-4 py-2 text-sm font-semibold text-white hover:bg-green-normal-hover">
                                 Lihat Semua Jadwal
                             </a>

@@ -1,6 +1,20 @@
 @extends('layout.main')
 @section('title', 'Home Page')
 @section('content')
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                toast: true,
+                position: 'top-end',
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    @endif
+
     <!-- Hero -->
     <section id="hero">
         <div class="relative bg-cover bg-center h-screen"
@@ -97,35 +111,37 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<style>
-  /* Pastikan popup kalender tidak ketutup */
-  .flatpickr-calendar { z-index: 9999 !important; }
-</style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        /* Pastikan popup kalender tidak ketutup */
+        .flatpickr-calendar {
+            z-index: 9999 !important;
+        }
+    </style>
 @endpush
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-<script>
-  // Jalankan SETELAH semua resource termuat
-  window.addEventListener('load', function () {
-    if (!window.flatpickr) return;
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+    <script>
+        // Jalankan SETELAH semua resource termuat
+        window.addEventListener('load', function() {
+            if (!window.flatpickr) return;
 
-    flatpickr.localize(flatpickr.l10ns.id); // pastikan locale ID aktif
+            flatpickr.localize(flatpickr.l10ns.id); // pastikan locale ID aktif
 
-    flatpickr("#singleDate", {
-      locale: "id",
-      dateFormat: "j M Y",      // "6 Nov 2025" — pakai "j F Y" untuk "6 November 2025"
-      allowInput: false,
-      minDate: "today",
-      monthSelectorType: "static",
-      showMonths: 1,
-      disableMobile: true,
-      onReady: function(selectedDates, dateStr, instance) {
-        instance.setDate(new Date(), true);
-      }
-    });
-  });
-</script>
+            flatpickr("#singleDate", {
+                locale: "id",
+                dateFormat: "j M Y", // "6 Nov 2025" — pakai "j F Y" untuk "6 November 2025"
+                allowInput: false,
+                minDate: "today",
+                monthSelectorType: "static",
+                showMonths: 1,
+                disableMobile: true,
+                onReady: function(selectedDates, dateStr, instance) {
+                    instance.setDate(new Date(), true);
+                }
+            });
+        });
+    </script>
 @endpush
