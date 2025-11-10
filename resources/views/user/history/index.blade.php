@@ -56,7 +56,7 @@
                         </p>
 
                         <div class="mt-4 flex items-center justify-center gap-3">
-                            <a href="{{ route('schedule.index', ['locale' => app()->getLocale()]) }}"
+                            <a href="{{ route('booking.index', ['locale' => app()->getLocale()]) }}"
                                 class="rounded-xl bg-green-normal px-4 py-2 text-sm font-semibold text-white hover:bg-green-normal-hover">
                                 Lihat Semua Jadwal
                             </a>

@@ -8,12 +8,12 @@
                 </a>
             </div>
             
-            <a href="/schedule"
-                class="{{ Request::is('*/schedule') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+            <a href="/booking"
+                class="{{ Request::is('*/booking') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
                 <div class="flex w-6 h-6 mr-4 items-center justify-center">
                     <i class="fa-solid fa-list"></i>
                 </div>
-                Jadwal
+                Booking
             </a>
 
                   

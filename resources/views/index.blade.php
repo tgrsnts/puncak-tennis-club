@@ -13,7 +13,7 @@
                         <p>Book your coaching tennis now!</p>
                     </div>
 
-                    <form action="/{{ app()->getLocale() }}/schedule" method="GET"
+                    <form action="/{{ app()->getLocale() }}/booking" method="GET"
                         class="flex gap-4 items-center border border-gray-400 px-12 py-6 rounded-full">
                         <div class="flex-1">
                             <label class="block mb-1 font-semibold">Tanggal</label>

@@ -24,7 +24,7 @@
                 </li>
                 <li
                     class="text-white border-b-2 border-transparent md:mr-12 hover:border-white {{ Request::is('katalog') ? 'border-white' : '' }}">
-                    <a href="/schedule">Jadwal</a>
+                    <a href="/booking">Booking</a>
                 </li>
                 <li
                     class="text-white border-b-2 border-transparent md:mr-12 hover:border-white {{ Request::is('photo') ? 'border-white' : '' }}">

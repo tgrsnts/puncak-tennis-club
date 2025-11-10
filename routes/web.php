@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\MidtransNotificationController;
 use App\Models\Coach;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -30,10 +29,6 @@ Route::prefix('{locale?}')
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-        Route::prefix('schedule')->name('schedule.')->group(function () {
-            Route::get('/', [JadwalController::class, 'index'])->name('index');
-        });
-
         Route::prefix('booking')->name('booking.')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('index');
             Route::post('/{booking}/snap', [BookingController::class, 'snap'])->name('snap');
@@ -46,15 +41,6 @@ Route::prefix('{locale?}')
         });
 
         Route::group(['middleware' => 'auth'], function () {
-            Route::prefix('schedule')->name('schedule.')->group(function () {
-                Route::get('/create', [JadwalController::class, 'create'])->name('create');
-                Route::post('/', [JadwalController::class, 'store'])->name('store');
-                Route::get('/{id}', [JadwalController::class, 'show'])->name('show');
-                Route::get('/{id}/edit', [JadwalController::class, 'edit'])->name('edit');
-                Route::put('/{id}', [JadwalController::class, 'update'])->name('update');
-                Route::delete('/{id}', [JadwalController::class, 'destroy'])->name('destroy');
-            });
-
             Route::prefix('booking')->name('booking.')->group(function () {
                 Route::get('/{booking}', [BookingController::class, 'show'])->name('show');
                 Route::get('/{id}/edit', [BookingController::class, 'edit'])->name('edit');
