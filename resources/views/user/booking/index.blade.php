@@ -23,7 +23,8 @@
                     </span>
                 @endif
 
-                <a href="{{ route('booking.index', app()->getLocale()) }}" class="ml-2 text-blue-600 hover:underline">Reset</a>
+                <a href="{{ route('booking.index', app()->getLocale()) }}"
+                    class="ml-2 text-blue-600 hover:underline">Reset</a>
             </div>
         @endif
 
@@ -77,8 +78,9 @@
                         {{-- Slot (pakai field dinamis jika ada, fallback ke contoh statis) --}}
                         @php
                             $taken = isset($item->current_slots) ? (int) $item->current_slots : 4;
-                            $max = isset($item->max_slot) ? (int) $item->max_slot : 8;
+                            $max = isset($item->max_slots) ? (int) $item->max_slots : 8;
                             $percent = max(0, min(100, round(($taken / max(1, $max)) * 100)));
+
                         @endphp
                         <div class="space-y-2">
                             <div class="flex items-center justify-between text-sm">
@@ -112,10 +114,17 @@
                         </a> --}}
 
                         @php $isFull = $taken >= $max; @endphp
-                        <a href="{{ route('booking.create', ['locale' => app()->getLocale(), 'id' => $item->id]) }}"
-                            class="rounded-xl px-4 py-2 text-sm font-semibold text-white bg-green-normal hover:bg-green-normal-hover">
-                            Book Now
-                        </a>
+                        @if ($isFull)
+                            <button disabled
+                                class="rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gray-400 cursor-not-allowed">
+                                Full
+                            </button>
+                        @else
+                            <a href="{{ route('booking.create', ['locale' => app()->getLocale(), 'id' => $item->id]) }}"
+                                class="rounded-xl px-4 py-2 text-sm font-semibold text-white bg-green-normal hover:bg-green-normal-hover">
+                                Book Now
+                            </a>
+                        @endif
                     </div>
                 </div>
             @empty
