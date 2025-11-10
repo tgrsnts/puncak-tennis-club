@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MidtransNotificationController;
+use App\Http\Controllers\RegisterController;
 use App\Models\Coach;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +23,14 @@ Route::prefix('{locale?}')
         })->name('home');
 
         Route::get('/login', fn() => view('auth.login'))->name('login');
-        Route::get('/register', fn() => view('auth.register'))->name('register');
-
         Route::post('/authenticate', [AuthController::class, 'login'])->name('admin.login');
-        Route::post('/register', [AuthController::class, 'register'])->name('admin.register');
+       
+
+        Route::get('/register', [RegisterController::class, 'showStep1'])->name('register.step1');
+        Route::post('/register', [RegisterController::class, 'handleStep1'])->name('register.step1.submit');
+
+        Route::get('/register/complete', [RegisterController::class, 'showStep2'])->name('register.step2');
+        Route::post('/register/complete', [RegisterController::class, 'handleStep2'])->name('register.step2.submit');
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
