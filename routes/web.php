@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\GalleryPhotoController;
 use App\Http\Controllers\Admin\GalleryVideoController;
 use App\Http\Controllers\Admin\TimetableController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MidtransNotificationController;
@@ -23,16 +23,15 @@ Route::prefix('{locale?}')
         })->name('home');
 
         Route::get('/login', fn() => view('auth.login'))->name('login');
-        Route::post('/authenticate', [AuthController::class, 'login'])->name('admin.login');
+        Route::post('/authenticate', [LoginController::class, 'login'])->name('login');
        
-
         Route::get('/register', [RegisterController::class, 'showStep1'])->name('register.step1');
         Route::post('/register', [RegisterController::class, 'handleStep1'])->name('register.step1.submit');
 
         Route::get('/register/complete', [RegisterController::class, 'showStep2'])->name('register.step2');
         Route::post('/register/complete', [RegisterController::class, 'handleStep2'])->name('register.step2.submit');
 
-        Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
         Route::prefix('booking')->name('booking.')->group(function () {
             Route::get('/', [BookingController::class, 'index'])->name('index');

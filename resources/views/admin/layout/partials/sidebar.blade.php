@@ -47,7 +47,7 @@
                 Timetable
             </a>
 
-            <form action="" method="POST" id="logout-form">
+            <form action="{{ route('logout', app()->getLocale()) }}" method="POST" id="logout-form">
                 @csrf
                 <button type="button" onclick="validatelogout()"
                     class="text-white font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
