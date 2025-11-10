@@ -54,6 +54,12 @@ class DatabaseSeeder extends Seeder
             'photo_url' => 'https://example.com/photos/john_doe.jpg',
         ]);
 
+        Coach::create([
+            'name' => 'Rizky Ramadhan',
+            'specialty' => 'Intermediate Coaching',
+            'photo_url' => 'https://example.com/photos/jane_smith.jpg',
+        ]);
+
         Timetable::create([
             'coach_id' => 1,
             'date' => '2023-12-01',

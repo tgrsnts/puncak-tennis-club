@@ -13,47 +13,36 @@
                         <p>Book your coaching tennis now!</p>
                     </div>
 
-                    <form action="/{{ app()->getLocale()}}/schedule" method="GET"
+                    <form action="/{{ app()->getLocale() }}/schedule" method="GET"
                         class="flex gap-4 items-center border border-gray-400 px-12 py-6 rounded-full">
-                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-                        <script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
-                        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js" defer></script>
                         <div class="flex-1">
                             <label class="block mb-1 font-semibold">Tanggal</label>
                             <div class="relative">
                                 <i class="fa-solid fa-calendar text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
                                 <input id="singleDate" type="text" name="date"
-                                    class="w-full rounded-md border border-gray-200 pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
+                                    class="w-full rounded-md border border-gray-200 pl-10 pr-4 py-2 focus:outline-none focus:ring focus:ring-green-normal"
                                     placeholder="6 Nov 2025" readonly />
                             </div>
-                            <script>
-                                flatpickr("#singleDate", {
-                                    locale: "id",
-                                    dateFormat: "j M Y", // 6 Nov 2025 — pakai "j F Y" kalau mau full bulan (November)
-                                    allowInput: false,
-                                    minDate: "today",
-                                    monthSelectorType: "static",
-                                    showMonths: 1, // kalender tampil 2 bulan berdampingan (mirip contoh)
-                                    disableMobile: true,
-                                    onReady: function(selectedDates, dateStr, instance) {
-                                        // auto isi default hari ini
-                                        const d = new Date();
-                                        instance.setDate(d, true);
-                                    }
-                                });
-                            </script>
                         </div>
                         <div class="flex items-center gap-4 pr-8">
                             <div class="flex flex-col">
                                 <label class="font-bold" for="coach">Coach</label>
-                                <select id="coach" name="coach_id"
-                                    class="text-gray-700 border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-normal">
-                                    <option selected disabled> <i class="fa-solid fa-user w-4 text-gray-700"></i> Select
-                                        Coach</option>
-                                    @foreach ($coaches as $c)
-                                        <option value="{{ $c->id }}">{{ $c->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="w-full max-w-sm min-w-[200px] relative">
+                                    <div class="relative">
+                                        <select id="coach" name="coach_id"
+                                            class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-green-normal hover:border-green-normal shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                            @foreach ($coaches as $c)
+                                                <option value="{{ $c->id }}">{{ $c->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.2" stroke="currentColor"
+                                            class="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-700">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <button type="submit"
@@ -106,3 +95,37 @@
         </div>
     </section>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+  /* Pastikan popup kalender tidak ketutup */
+  .flatpickr-calendar { z-index: 9999 !important; }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+<script>
+  // Jalankan SETELAH semua resource termuat
+  window.addEventListener('load', function () {
+    if (!window.flatpickr) return;
+
+    flatpickr.localize(flatpickr.l10ns.id); // pastikan locale ID aktif
+
+    flatpickr("#singleDate", {
+      locale: "id",
+      dateFormat: "j M Y",      // "6 Nov 2025" — pakai "j F Y" untuk "6 November 2025"
+      allowInput: false,
+      minDate: "today",
+      monthSelectorType: "static",
+      showMonths: 1,
+      disableMobile: true,
+      onReady: function(selectedDates, dateStr, instance) {
+        instance.setDate(new Date(), true);
+      }
+    });
+  });
+</script>
+@endpush
