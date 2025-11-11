@@ -80,6 +80,16 @@ class DatabaseSeeder extends Seeder
             'max_slots' => '5',
         ]);
 
+        Timetable::create([
+            'coach_id' => 3,
+            'date' => now()->addDays(3)->format('Y-m-d'),
+            'start_time' => '14:00:00',
+            'end_time' => '15:00:00',
+            'level' => 'Intermediate',
+            'price' => '150000',
+            'max_slots' => '5',
+        ]);
+
         Booking::create([
             'timetable_id' => 1,
             'user_id' => 1,
