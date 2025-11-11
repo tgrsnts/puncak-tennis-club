@@ -84,22 +84,26 @@ class BookingController extends Controller
             'note'         => 'nullable|string|max:1000',
         ]);
 
-        // Resolve timetable id from route or request (hidden input or query)
-        $timetableId = $request->route('timetable') ?? $request->query('timetable') ?? $request->query('id') ?? $request->input('timetable_id');
-        if (! $timetableId) {
+        // Ambil timetable
+        $timetableId = $request->route('timetable')
+            ?? $request->query('timetable')
+            ?? $request->query('id')
+            ?? $request->input('timetable_id');
+
+        if (!$timetableId) {
             return response()->json(['error' => 'Timetable id missing'], 400);
         }
 
         $timetable = Timetable::with('coach')->find($timetableId);
-        if (! $timetable) {
+        if (!$timetable) {
             return response()->json(['error' => 'Timetable not found'], 404);
         }
 
+        // Cek kapasitas
         $person_count = (int) $request->input('person_count', 1);
         $taken  = (int) ($timetable->current_slots ?? 0);
         $max    = (int) ($timetable->max_slots ?? 1);
         $remain = max(0, $max - $taken);
-
         if ($person_count > $remain) {
             return response()->json([
                 'error'  => 'Not enough slots available',
@@ -107,9 +111,11 @@ class BookingController extends Controller
             ], 422);
         }
 
+        // Hitung harga
         $price = (int) ($timetable->price ?? 0);
         $total = $price * $person_count;
 
+        // Midtrans config
         $serverKey   = config('midtrans.server_key');
         $isProd      = (bool) config('midtrans.is_production', false);
         $midtransUrl = $isProd
@@ -122,10 +128,14 @@ class BookingController extends Controller
             ], 422);
         }
 
-        DB::beginTransaction();
+        // ✅ Ambil durasi kadaluarsa dari config (fallback 24 jam)
+        $expiryMinutes = (int) config('midtrans.expiry_minutes', 60 * 24);
+        $now = now();
+        $expiredAt = $now->copy()->addMinutes($expiryMinutes);
 
+        DB::beginTransaction();
         try {
-            // 1. Buat booking baru
+            // 1) Booking
             $booking = new Booking();
             $booking->timetable_id = $timetable->id;
             $booking->user_id      = Auth::id(); // null jika guest
@@ -138,12 +148,22 @@ class BookingController extends Controller
             $booking->public_code  = (string) Str::uuid();
             $booking->save();
 
-            // 2. Buat request ke Midtrans Snap (dengan timeout dan handling yang lebih toleran)
-            // generate order id and pass it to payload so we can match notifications later
-            $orderId = 'BOOK-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(6));
+            // 2) Siapkan payload Snap + expiry
+            $orderId = 'BOOK-' . $now->format('YmdHis') . '-' . Str::upper(Str::random(6));
+
+            // 🔐 Payload: pastikan ada "expiry" agar sinkron dengan expired_at kita
             $payload = $this->buildMidtransPayload($booking, $timetable, $orderId);
+            $payload['expiry'] = [
+                'start_time' => $now->format('Y-m-d H:i:s O'), // contoh: 2025-11-11 08:05:00 +0700
+                'unit'       => 'minutes',
+                'duration'   => $expiryMinutes,
+            ];
+
+            // Call Snap
             try {
-                $response = Http::withBasicAuth($serverKey, '')->timeout(15)->post($midtransUrl, $payload);
+                $response = Http::withBasicAuth($serverKey, '')
+                    ->timeout(15)
+                    ->post($midtransUrl, $payload);
             } catch (\Throwable $ex) {
                 DB::rollBack();
                 Log::error('Midtrans request exception', ['message' => $ex->getMessage()]);
@@ -158,70 +178,44 @@ class BookingController extends Controller
                 // ignore json decode errors, will check body
             }
 
-            // prefer token from decoded JSON, fallback to attempting to parse body
             $token = is_array($resp) ? ($resp['token'] ?? null) : null;
             $redir = is_array($resp) ? ($resp['redirect_url'] ?? null) : null;
-            if (! $token) {
-                // try decode manually if json() failed
+            if (!$token) {
                 $decoded = @json_decode($respBody, true);
                 if (is_array($decoded)) {
                     $token = $decoded['token'] ?? $token;
                     $redir = $decoded['redirect_url'] ?? $redir;
-                    $resp = $decoded;
+                    $resp  = $decoded;
                 }
             }
 
-            if (! $token) {
+            if (!$token) {
                 DB::rollBack();
                 Log::error('Midtrans returned no token', ['status' => $response->status(), 'body' => $respBody]);
-                return response()->json(['error' => 'Failed to create Midtrans transaction', 'detail' => $respBody, 'status' => $response->status()], 502);
+                return response()->json([
+                    'error'  => 'Failed to create Midtrans transaction',
+                    'detail' => $respBody,
+                    'status' => $response->status()
+                ], 502);
             }
 
-            // 3. Simpan payment awal (pending)
+            // 3) Payment (pending)
             $payment = new Payment();
-            $payment->booking_id       = $booking->id;
-            $payment->payment_method   = 'midtrans_snap';
-            $payment->gross_amount           = $total;
-            $payment->status           = 'pending';
-            $payment->payment_code     = $token;
-            $payment->order_id         = $orderId;
-            $payment->payment_url      = $redir;
-            $payment->response_payload = json_encode($resp ?? []);
-
-            // If Midtrans returned time fields, map them to our payment timestamps
-            // common keys: transaction_time, settlement_time, expire_time, expiry_time
-            $txTime = null;
-            if (is_array($resp)) {
-                $txTime = $resp['transaction_time'] ?? $resp['settlement_time'] ?? null;
-                $expireTime = $resp['expire_time'] ?? $resp['expiry_time'] ?? null;
-            } else {
-                $expireTime = null;
-            }
-
-            if (!empty($txTime)) {
-                // try parse as datetime
-                try {
-                    $payment->settlement_time = $txTime;
-                    // if txTime implies paid, set paid_at
-                    $payment->paid_at = $txTime;
-                } catch (\Throwable $e) {
-                    // ignore parse errors
-                }
-            }
-
-            if (!empty($expireTime)) {
-                try {
-                    $payment->expired_at = $expireTime;
-                } catch (\Throwable $e) {
-                    // ignore
-                }
-            }
-
+            $payment->booking_id        = $booking->id;
+            $payment->payment_method    = 'midtrans_snap';
+            $payment->gross_amount      = $total;
+            $payment->status            = 'pending';
+            $payment->payment_code      = $token;      // snap token
+            $payment->order_id          = $orderId;    // order id kita
+            $payment->payment_url       = $redir;
+            $payment->response_payload  = json_encode($resp ?? []);
+            $payment->expired_at        = $expiredAt;  // ✅ set manual, jangan nunggu response Snap
+            // ❌ Jangan set paid_at / settlement_time di sini; tunggu notify
             $payment->save();
 
             DB::commit();
 
-            // 4. Tentukan URL redirect sesuai user login / guest
+            // 4) URL redirect
             $urls = $this->buildFinishUrls($locale, $booking, $payment);
 
             return response()->json([
@@ -230,6 +224,7 @@ class BookingController extends Controller
                 'finish_redirect' => $urls['finish_redirect'],
                 'public_url'      => $urls['public_url'],
                 'success_url'     => $urls['success_url'],
+                'expired_at'      => $payment->expired_at?->toIso8601String(), // opsional info ke FE
             ]);
         } catch (\Throwable $e) {
             DB::rollBack();

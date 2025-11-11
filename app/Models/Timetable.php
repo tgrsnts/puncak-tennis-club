@@ -15,7 +15,7 @@ class Timetable extends Model
         'price',
         'max_slots',
     ];
-    
+
     protected $appends = ['current_slots'];
 
     public function coach()
@@ -30,6 +30,8 @@ class Timetable extends Model
 
     public function getCurrentSlotsAttribute()
     {
-        return $this->bookings()->count();
+        return $this->bookings()
+            ->where('status', '!=', 'cancelled')
+            ->count();
     }
 }
