@@ -3,7 +3,7 @@
 
 @section('content')
     <section class="min-h-screen font-poppins w-full p-4 pb-20 bg-[#F4F5F9]">
-        <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
 
             {{-- LEFT: Session Summary --}}
             <div class="lg:col-span-1 rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
