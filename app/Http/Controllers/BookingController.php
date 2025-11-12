@@ -69,7 +69,7 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $id = $request->query('id');
-        $timetable = Timetable::with('coach')->findOrFail($id);
+        $timetable = Timetable::query()->with('coach')->withCount(['bookings as current_slots' => function ($q) { $q->whereIn('status', ['pending', 'confirmed', 'completed']);}])->findOrFail($id);
 
         return view('user.booking.create', [
             'timetableId' => $id,
