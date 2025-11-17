@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryPhotoController;
 use App\Http\Controllers\Admin\GalleryVideoController;
 use App\Http\Controllers\Admin\TimetableController;
@@ -64,8 +65,9 @@ Route::prefix('{locale?}')
 
 
         Route::prefix('admin')->name('admin.')->group(function () {
-            Route::get('/', fn() => view('admin.index'))->name('index');
+            Route::get('/', [DashboardController::class, 'index'])->name('index');
 
+            // ======== ORDER ========
             Route::prefix('order')->name('order.')->group(function () {
                 Route::get('/', [OrderController::class, 'index'])->name('index');
                 Route::get('/create', [OrderController::class, 'create'])->name('create');
