@@ -54,7 +54,7 @@
                                 <i class="fa-regular fa-clock text-gray-600"></i>
                                 <div>
                                     <div class="text-xs text-gray-500">Time Start</div>
-                                    <div class="font-semibold text-gray-800"> {{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }}</div>
+                                    <div class="font-semibold text-gray-800"> {{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }}</div>
                                 </div>
                             </div>
                             <div class="flex items-center gap-3 rounded-xl bg-gray-50 px-4 py-2">
