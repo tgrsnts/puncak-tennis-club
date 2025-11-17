@@ -23,7 +23,7 @@
                         {{ \Carbon\Carbon::parse($item->timetable->date)->translatedFormat('d F Y') }}
                         &nbsp; | &nbsp;
                         <i class="fa-regular fa-clock mr-2"></i>
-                        {{ $item->timetable->start_time }} - {{ $item->timetable->end_time }}
+                         {{ \Carbon\Carbon::parse($item->timetable->start_time)->format('H:i') }} -  {{ \Carbon\Carbon::parse($item->timetable->end_time)->format('H:i') }}
                     </div>
 
                     <div class="flex justify-between items-center mt-3 mb-2">

@@ -26,14 +26,16 @@
                             <i class="fa-regular fa-clock text-gray-600"></i>
                             <div>
                                 <div class="text-xs text-gray-500">Time Start</div>
-                                <div class="font-semibold text-gray-800">{{ $timetable->start_time }}</div>
+                                <div class="font-semibold text-gray-800">
+                                    {{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }}
+                                </div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 rounded-xl bg-gray-50 px-4 py-2">
                             <i class="fa-regular fa-clock text-gray-600"></i>
                             <div>
                                 <div class="text-xs text-gray-500">Time Finish</div>
-                                <div class="font-semibold text-gray-800">{{ $timetable->end_time }}</div>
+                                <div class="font-semibold text-gray-800"> {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</div>
                             </div>
                         </div>
                     </div>

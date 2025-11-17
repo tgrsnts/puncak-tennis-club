@@ -41,7 +41,8 @@
                 @if (!empty($booking->payment?->payment_type))
                     <div class="mt-3 text-sm text-gray-600">
                         Metode Pembayaran: <span
-                            class="font-medium text-gray-800">{{ strtoupper($booking->payment->payment_type) }} - {{ $booking->payment->va_bank }}</span>
+                            class="font-medium text-gray-800">{{ strtoupper($booking->payment->payment_type) }} -
+                            {{ $booking->payment->va_bank }}</span>
                     </div>
                 @endif
             </div>
@@ -64,7 +65,8 @@
                         <div>
                             <div class="text-xs text-gray-500">Waktu</div>
                             <div class="font-semibold text-gray-800">
-                                {{ $booking->timetable->start_time }} – {{ $booking->timetable->end_time }}
+                                {{ \Carbon\Carbon::parse($booking->timetable->start_time)->format('H:i') }} –
+                                {{ \Carbon\Carbon::parse($booking->timetable->end_time)->format('H:i') }}
                             </div>
                         </div>
                     </div>
@@ -140,11 +142,11 @@
                 </div>
                 <div class="flex gap-3">
                     {{-- Download E-Ticket / Invoice (sesuaikan route) --}}
-                     <a href="{{ route('booking.ticket', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}" 
+                    <a href="{{ route('booking.ticket', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}"
                         class="rounded-xl px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200">
                         Download E-Tiket
                     </a>
-                    <a href="{{ route('booking.invoice', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}"                 
+                    <a href="{{ route('booking.invoice', ['locale' => app()->getLocale(), 'booking' => $booking->id]) }}"
                         class="rounded-xl px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200">
                         Download Invoice
                     </a>

@@ -37,9 +37,9 @@
             @foreach ($timetables as $timetable)
                 <div
                     class="w-full rounded-3xl bg-green-normal shadow-md border border-gray-100 p-5 pt-0 flex flex-col gap-4">
-                    <div class="relative flex justify-center">                      
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52"
-                            fill="none" class="absolute z-1 h-8">
+                    <div class="relative flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52" fill="none"
+                            class="absolute z-1 h-8">
                             <path
                                 d="M480.307 -1.43269e-10C430.574 0.000103166 443.109 51.5156 404.413 51.5156L75.8936 51.5156C37.1974 51.5156 49.7324 0.000103167 0 0L480.307 -1.43269e-10Z"
                                 fill="white" />
@@ -48,7 +48,7 @@
                             {{ \Carbon\Carbon::parse($timetable->date)->translatedFormat('d F Y') }}</h2>
                     </div>
                     {{-- Header: Tanggal + Level --}}
-                    <div class="flex justify-end mt-8">                
+                    <div class="flex justify-end mt-8">
                         <span
                             class="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
                             <i class="fa-solid fa-signal"></i>
@@ -62,7 +62,7 @@
                             <span class="text-xs text-gray-500">Time Start</span>
                             <div class="flex items-center gap-2 font-semibold text-gray-800">
                                 <i class="fa-regular fa-clock text-sm"></i>
-                                <span>{{ $timetable->start_time }}</span>
+                                <span> {{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }}</span>
                             </div>
                         </div>
 
@@ -70,7 +70,8 @@
                             <span class="text-xs text-gray-500">Time Finish</span>
                             <div class="flex items-center gap-2 font-semibold text-gray-800">
                                 <i class="fa-regular fa-clock text-sm"></i>
-                                <span>{{ $timetable->end_time }}</span>
+                                <span>
+                                    {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
                             </div>
                         </div>
 

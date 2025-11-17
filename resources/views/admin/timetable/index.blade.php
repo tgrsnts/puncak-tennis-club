@@ -46,7 +46,9 @@
                         <tr>
                             <td>{{ \Carbon\Carbon::parse($item->date)->format('d M Y') }}</td>
 
-                            <td>{{ $item->start_time }} - {{ $item->end_time }}</td>
+                            <td> {{ \Carbon\Carbon::parse($item->start_time)->format('H:i') }}
+                                -
+                                {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}</td>
 
                             <td>{{ $item->coach->name }}</td>
 

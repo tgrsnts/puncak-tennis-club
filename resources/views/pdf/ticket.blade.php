@@ -44,7 +44,9 @@ $tt = $booking->timetable;
       </div>
       <div class="col box">
         <div class="muted">Waktu</div>
-        <div><strong>{{ $tt->start_time }} – {{ $tt->end_time }}</strong></div>
+        <div><strong> {{ \Carbon\Carbon::parse($tt->start_time)->format('H:i') }}
+                        –
+                        {{ \Carbon\Carbon::parse($tt->end_time)->format('H:i') }}</strong></div>
       </div>
       <div class="col box">
         <div class="muted">Coach</div>

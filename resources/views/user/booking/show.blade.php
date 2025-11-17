@@ -119,7 +119,7 @@
                         <div>
                             <div class="text-xs text-gray-500">Waktu</div>
                             <div class="font-semibold text-gray-800">
-                                {{ $booking->timetable->start_time }} – {{ $booking->timetable->end_time }}
+                                 {{ \Carbon\Carbon::parse($booking->timetable->start_time)->format('H:i') }} –  {{ \Carbon\Carbon::parse($booking->timetable->end_time)->format('H:i') }}
                             </div>
                         </div>
                     </div>
