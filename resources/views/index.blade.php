@@ -29,95 +29,192 @@
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
+            <h2 class="font-bold text-green-normal text-4xl absolute z-2">Jadwal Tersedia</h2>
         </div>
     </section>
 
-    <section class="h-screen bg-white">
-        <div class="flex gap-12 py-20 overflow-x-hidden">
-            @foreach ($timetables as $timetable)
-                <div
-                    class="w-full rounded-3xl bg-green-normal shadow-md border border-gray-100 p-5 pt-0 flex flex-col gap-4">
-                    <div class="relative flex justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52" fill="none"
-                            class="absolute z-1 h-8">
-                            <path
-                                d="M480.307 -1.43269e-10C430.574 0.000103166 443.109 51.5156 404.413 51.5156L75.8936 51.5156C37.1974 51.5156 49.7324 0.000103167 0 0L480.307 -1.43269e-10Z"
-                                fill="white" />
-                        </svg>
-                        <h2 class="font-bold text-green-normal text-xl absolute z-2">
-                            {{ \Carbon\Carbon::parse($timetable->date)->translatedFormat('d F Y') }}</h2>
-                    </div>
-                    {{-- Header: Tanggal + Level --}}
-                    <div class="flex justify-end mt-8">
-                        <span
-                            class="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
-                            <i class="fa-solid fa-signal"></i>
-                            {{ $timetable->level ?? 'All Level' }}
-                        </span>
-                    </div>
+    <section class="py-12 bg-white">
+        @php
+            $count = $timetables->count();
+        @endphp
 
-                    {{-- Body: Time & Coach --}}
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
-                            <span class="text-xs text-gray-500">Time Start</span>
-                            <div class="flex items-center gap-2 font-semibold text-gray-800">
-                                <i class="fa-regular fa-clock text-sm"></i>
-                                <span> {{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }}</span>
+        @if ($count <= 2)
+            <div class="w-full py-20">
+                <div class="flex justify-center gap-6 flex-wrap">
+                    @foreach ($timetables as $timetable)
+                        <div
+                            class="min-w-[280px] md:min-w-[340px] rounded-3xl bg-green-normal shadow-md border border-gray-100 p-5 pt-0 flex flex-col gap-4 snap-center">
+                            <div class="relative flex justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52" fill="none"
+                                    class="absolute z-1 h-8">
+                                    <path
+                                        d="M480.307 -1.43269e-10C430.574 0.000103166 443.109 51.5156 404.413 51.5156L75.8936 51.5156C37.1974 51.5156 49.7324 0.000103167 0 0L480.307 -1.43269e-10Z"
+                                        fill="white" />
+                                </svg>
+                                <h2 class="font-bold text-green-normal text-xl absolute z-2">
+                                    {{ \Carbon\Carbon::parse($timetable->date)->translatedFormat('d F Y') }}
+                                </h2>
+                            </div>
+
+                            {{-- Header: Tanggal + Level --}}
+                            <div class="flex justify-end mt-8">
+                                <span
+                                    class="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                                    <i class="fa-solid fa-signal"></i>
+                                    {{ $timetable->level ?? 'All Level' }}
+                                </span>
+                            </div>
+
+                            {{-- Body: Time & Coach --}}
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
+                                    <span class="text-xs text-gray-500">Time Start</span>
+                                    <div class="flex items-center gap-2 font-semibold text-gray-800">
+                                        <i class="fa-regular fa-clock text-sm"></i>
+                                        <span>{{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
+                                    <span class="text-xs text-gray-500">Time Finish</span>
+                                    <div class="flex items-center gap-2 font-semibold text-gray-800">
+                                        <i class="fa-regular fa-clock text-sm"></i>
+                                        <span>{{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
+                                    <span class="text-xs text-gray-500">Coach</span>
+                                    <div class="flex items-center gap-2 font-semibold text-gray-800">
+                                        <i class="fa-regular fa-user text-sm"></i>
+                                        <span>{{ $timetable->coach->name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @php
+                                $taken = $timetable->bookings_count ?? 0;
+                                $max = $timetable->max_slot ?? 5;
+                                $percent = $max > 0 ? ($taken / $max) * 100 : 0;
+                            @endphp
+
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center justify-between text-xs text-white">
+                                    <span>Slot</span>
+                                    <span class="font-semibold">{{ $taken }} / {{ $max }}</span>
+                                </div>
+                                <div class="h-2 w-full rounded-full bg-white overflow-hidden">
+                                    <div class="h-2 rounded-full bg-green-normal" style="width: {{ $percent }}%"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between gap-4 pt-2">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-white">Price</span>
+                                    <span class="text-lg font-bold text-white">
+                                        Rp {{ number_format($timetable->price, 0, ',', '.') }}
+                                    </span>
+                                </div>
+
+                                <a href="{{ route('booking.create', ['locale' => app()->getLocale(), 'id' => $timetable->id]) }}"
+                                    class="inline-flex items-center justify-center rounded-2xl bg-yellow-normal px-6 py-3 text-sm font-semibold text-white shadow hover:bg-yellow-normal-hover transition">
+                                    Book Now
+                                </a>
                             </div>
                         </div>
-
-                        <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
-                            <span class="text-xs text-gray-500">Time Finish</span>
-                            <div class="flex items-center gap-2 font-semibold text-gray-800">
-                                <i class="fa-regular fa-clock text-sm"></i>
-                                <span>
-                                    {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
-                            </div>
-                        </div>
-
-                        <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
-                            <span class="text-xs text-gray-500">Coach</span>
-                            <div class="flex items-center gap-2 font-semibold text-gray-800">
-                                <i class="fa-regular fa-user text-sm"></i>
-                                <span>{{ $timetable->coach->name }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Slot & Progress --}}
-                    @php
-                        $taken = $timetable->bookings_count ?? 0;
-                        $max = $timetable->max_slot ?? 5;
-                        $percent = $max > 0 ? ($taken / $max) * 100 : 0;
-                    @endphp
-
-                    <div class="flex flex-col gap-2">
-                        <div class="flex items-center justify-between text-xs text-white">
-                            <span>Slot</span>
-                            <span class="font-semibold">{{ $taken }} / {{ $max }}</span>
-                        </div>
-                        <div class="h-2 w-full rounded-full bg-white overflow-hidden">
-                            <div class="h-2 rounded-full bg-green-normal" style="width: {{ $percent }}%"></div>
-                        </div>
-                    </div>
-
-                    {{-- Footer: Price + Button --}}
-                    <div class="flex items-center justify-between gap-4 pt-2">
-                        <div class="flex flex-col">
-                            <span class="text-xs text-white">Price</span>
-                            <span class="text-lg font-bold text-white">
-                                Rp {{ number_format($timetable->price, 0, ',', '.') }}
-                            </span>
-                        </div>
-
-                        <a href="{{ route('booking.create', ['locale' => app()->getLocale(), 'id' => $timetable->id]) }}"
-                            class="inline-flex items-center justify-center rounded-2xl bg-yellow-normal px-6 py-3 text-sm font-semibold text-white shadow hover:bg-yellow-normal-hover transition">
-                            Book Now
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @else
+            <div class="w-full overflow-x-auto no-scrollbar snap-x snap-mandatory py-20">
+                {{-- RAIL FLEX HORIZONTAL --}}
+                <div class="flex gap-6 w-max">
+                    @foreach ($timetables as $timetable)
+                        <div
+                            class="min-w-[280px] md:min-w-[340px] rounded-3xl bg-green-normal shadow-md border border-gray-100 p-5 pt-0 flex flex-col gap-4 snap-center">
+                            <div class="relative flex justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52" fill="none"
+                                    class="absolute z-1 h-8">
+                                    <path
+                                        d="M480.307 -1.43269e-10C430.574 0.000103166 443.109 51.5156 404.413 51.5156L75.8936 51.5156C37.1974 51.5156 49.7324 0.000103167 0 0L480.307 -1.43269e-10Z"
+                                        fill="white" />
+                                </svg>
+                                <h2 class="font-bold text-green-normal text-xl absolute z-2">
+                                    {{ \Carbon\Carbon::parse($timetable->date)->translatedFormat('d F Y') }}
+                                </h2>
+                            </div>
+
+                            {{-- Header: Tanggal + Level --}}
+                            <div class="flex justify-end mt-8">
+                                <span
+                                    class="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+                                    <i class="fa-solid fa-signal"></i>
+                                    {{ $timetable->level ?? 'All Level' }}
+                                </span>
+                            </div>
+
+                            {{-- Body: Time & Coach --}}
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
+                                    <span class="text-xs text-gray-500">Time Start</span>
+                                    <div class="flex items-center gap-2 font-semibold text-gray-800">
+                                        <i class="fa-regular fa-clock text-sm"></i>
+                                        <span>{{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
+                                    <span class="text-xs text-gray-500">Time Finish</span>
+                                    <div class="flex items-center gap-2 font-semibold text-gray-800">
+                                        <i class="fa-regular fa-clock text-sm"></i>
+                                        <span>{{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl bg-gray-50 px-4 py-3 flex flex-col gap-1">
+                                    <span class="text-xs text-gray-500">Coach</span>
+                                    <div class="flex items-center gap-2 font-semibold text-gray-800">
+                                        <i class="fa-regular fa-user text-sm"></i>
+                                        <span>{{ $timetable->coach->name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @php
+                                $taken = $timetable->bookings_count ?? 0;
+                                $max = $timetable->max_slot ?? 5;
+                                $percent = $max > 0 ? ($taken / $max) * 100 : 0;
+                            @endphp
+
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center justify-between text-xs text-white">
+                                    <span>Slot</span>
+                                    <span class="font-semibold">{{ $taken }} / {{ $max }}</span>
+                                </div>
+                                <div class="h-2 w-full rounded-full bg-white overflow-hidden">
+                                    <div class="h-2 rounded-full bg-green-normal" style="width: {{ $percent }}%">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between gap-4 pt-2">
+                                <div class="flex flex-col">
+                                    <span class="text-xs text-white">Price</span>
+                                    <span class="text-lg font-bold text-white">
+                                        Rp {{ number_format($timetable->price, 0, ',', '.') }}
+                                    </span>
+                                </div>
+
+                                <a href="{{ route('booking.create', ['locale' => app()->getLocale(), 'id' => $timetable->id]) }}"
+                                    class="inline-flex items-center justify-center rounded-2xl bg-yellow-normal px-6 py-3 text-sm font-semibold text-white shadow hover:bg-yellow-normal-hover transition">
+                                    Book Now
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </section>
 
     <section class="h-full bg-green-normal flex flex-col items-center gap-20 px-20">
