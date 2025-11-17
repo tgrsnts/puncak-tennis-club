@@ -18,8 +18,8 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->string('level');
-            $table->string('price');
-            $table->string('max_slots');
+            $table->integer('price');
+            $table->integer('max_slots');
             $table->timestamps();
         });
     }
