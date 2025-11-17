@@ -14,40 +14,46 @@
                         <th>Date</th>
                         <th>Time</th>
                         <th>Coach</th>
-                        <th>Status</th>                        
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Christine Brooks</td>
-                        <td>083452628563</td>
-                        <td>04 Sep 2019</td>
-                        <td>16:00-17:00</td>
-                        <td>Coach Ferizwan</td>
-                        <td>
-                            <div class="bg-[#CCF0EB] text-[#00B69B] py-2 px-4 rounded-lg text-center w-fit">Confirmed</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Christine Brooks</td>
-                        <td>083452628563</td>
-                        <td>04 Sep 2019</td>
-                        <td>16:00-17:00</td>
-                        <td>Coach Ferizwan</td>
-                        <td>
-                            <div class="bg-[#FFEDDD] text-[#FFA756] py-2 px-4 rounded-lg text-center w-fit">On Hold</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Christine Brooks</td>
-                        <td>083452628563</td>
-                        <td>04 Sep 2019</td>
-                        <td>16:00-17:00</td>
-                        <td>Coach Ferizwan</td>
-                        <td>
-                            <div class="bg-[#FCD7D4] text-[#EF3826] py-2 px-4 rounded-lg text-center w-fit">Rejected</div>
-                        </td>
-                    </tr>
+                    @foreach ($data as $o)
+                        @php
+                            $status = $o->status;
+
+                            $badge = [
+                                'confirmed' => ['bg' => '#CCF0EB', 'text' => '#00B69B', 'label' => 'Confirmed'],
+                                'pending' => ['bg' => '#FFEDDD', 'text' => '#FFA756', 'label' => 'On Hold'],
+                                'rejected' => ['bg' => '#FCD7D4', 'text' => '#EF3826', 'label' => 'Rejected'],
+                            ][$status] ?? [
+                                'bg' => '#E5E5E5',
+                                'text' => '#555',
+                                'label' => ucfirst($status),
+                            ];
+                        @endphp
+
+                        <tr>
+                            <td>{{ $o->user->name ?? $o->guest_name }}</td>
+
+                            <td>{{ $o->user->phone ?? $o->guest_phone }}</td>
+
+                            <td>{{ \Carbon\Carbon::parse($o->timetable->date)->format('d M Y') }}</td>
+
+                            <td>
+                                {{ $o->timetable->start_time }} - {{ $o->timetable->end_time }}
+                            </td>
+
+                            <td>{{ $o->timetable->coach->name }}</td>
+
+                            <td>
+                                <div class="py-2 px-4 rounded-lg text-center w-fit"
+                                    style="background-color: {{ $badge['bg'] }}; color: {{ $badge['text'] }}">
+                                    {{ $badge['label'] }}
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

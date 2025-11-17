@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MidtransNotificationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
 use App\Models\Coach;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -64,7 +65,15 @@ Route::prefix('{locale?}')
 
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', fn() => view('admin.index'))->name('index');
-            Route::get('/order', fn() => view('admin.order.index'))->name('order');
+
+            Route::prefix('order')->name('order.')->group(function () {
+                Route::get('/', [OrderController::class, 'index'])->name('index');
+                Route::get('/create', [OrderController::class, 'create'])->name('create');
+                Route::post('/', [OrderController::class, 'store'])->name('store');
+                Route::get('/{gallery}/edit', [OrderController::class, 'edit'])->name('edit');
+                Route::put('/{gallery}', [OrderController::class, 'update'])->name('update');
+                Route::delete('/{gallery}', [OrderController::class, 'destroy'])->name('destroy');
+            });
 
             // ======== GALLERY PHOTO ========
             Route::prefix('gallery-photo')->name('gallery-photo.')->group(function () {
