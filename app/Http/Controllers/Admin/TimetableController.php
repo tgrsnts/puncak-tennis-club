@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Coach;
 use App\Models\Timetable;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TimetableController extends Controller
@@ -42,18 +43,42 @@ class TimetableController extends Controller
         $validated = $request->validate([
             'date'      => ['required', 'date'],
             'start_time'     => ['required'],
-            'end_time'    => ['required'],
+            'duration'    => ['required'],
             'coach_id' => ['required', 'exists:coach,id'],
             'level'     => ['required', 'string'],
             'max_slots'  => ['required', 'integer', 'min:1'],
             'price'     => ['required', 'integer', 'min:0'],
         ]);
 
+        $durationHours = intval($validated['duration']);
+
+        $start = Carbon::createFromFormat('H:i', $validated['start_time']);
+        $end   = (clone $start)->addHours($durationHours);
+
+        $startTime = $start->format('H:i:s'); // cocok sama kolom TIME di DB
+        $endTime   = $end->format('H:i:s');
+
+        $hasOverlap = Timetable::whereDate('date', $validated['date'])
+            ->where(function ($q) use ($startTime, $endTime) {
+                $q->where('start_time', '<', $endTime)  // existing.start < new.end
+                    ->where('end_time', '>', $startTime); // existing.end > new.start
+            })
+            ->exists();
+
+
+        if ($hasOverlap) {
+            return back()
+                ->withErrors([
+                    'start_time' => 'Jadwal bentrok dengan sesi lain di lapangan ini pada jam tersebut. Silakan pilih waktu lain.',
+                ])
+                ->withInput();
+        }
+
         // 2. Simpan ke database
         Timetable::create([
             'date'       => $validated['date'],
-            'start_time' => $validated['start_time'],
-            'end_time'   => $validated['end_time'],
+            'start_time' => $startTime,
+            'end_time'   => $endTime,
             'coach_id'  => $validated['coach_id'],
             'level'      => $validated['level'],
             'max_slots'   => $validated['max_slots'],
