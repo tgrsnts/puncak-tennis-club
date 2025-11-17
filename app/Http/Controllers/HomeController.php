@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coach;
+use App\Models\Photo;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -46,11 +47,29 @@ class HomeController extends Controller
             ->paginate(12)         // ✅ pakai pagination biar ringan
             ->withQueryString();   // keep query params saat paging
 
+        $photos = Photo::all();
+
+        if ($photos->isEmpty()) {
+            $photoUrls = [
+                        '/assets/images/photo (1).png',
+                        '/assets/images/photo (2).png',
+                        '/assets/images/photo (3).png',
+                        '/assets/images/photo (4).png',
+                        '/assets/images/photo (5).png',
+            ];
+        } else {
+            $photoUrls = $photos->map(function ($p) {
+                return asset($p->img);
+            });
+        }
+
+
         return view('index', [
             'coaches'            => Coach::all(),
             'filterDateDisplay' => $filterDateDisplay,
             'filterCoach'       => $filterCoach,
             'timetables'        => $timetables,
+            'photoUrls'            => $photoUrls,
         ]);
     }
 }

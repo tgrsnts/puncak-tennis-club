@@ -199,7 +199,7 @@
     <section class="h-screen bg-white flex flex-col items-center gap-20 px-20">
         <h2 class="font-bold text-green-normal text-4xl">Photo</h2>
 
-        <div x-data="photoCarousel()" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
+        <div x-data="photoCarousel(@js($photoUrls))" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
             <!-- Tombol kiri -->
             <button @click="prev()"
                 class="grid place-items-center
@@ -240,15 +240,9 @@
         </style>
 
         <script>
-            function photoCarousel() {
+            function photoCarousel(initialImages = []) {
                 return {
-                    images: [
-                        '/assets/images/photo (1).png',
-                        '/assets/images/photo (2).png',
-                        '/assets/images/photo (3).png',
-                        '/assets/images/photo (4).png',
-                        '/assets/images/photo (5).png',
-                    ],
+                    images: initialImages,
                     CLONE: 2,
                     loopImages: [],
                     centerVirtual: 2, // gunakan ini untuk efek besar-kecil
