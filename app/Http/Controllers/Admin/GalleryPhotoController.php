@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gallery;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -12,7 +12,7 @@ class GalleryPhotoController extends Controller
 {
     public function index()
     {
-        $galleries = Gallery::latest()->paginate(9);
+        $galleries = Photo::latest()->paginate(9);
         return view('admin.gallery-photo.index', compact('galleries'));
     }
 
@@ -37,29 +37,29 @@ class GalleryPhotoController extends Controller
             $data['img'] = 'gallery/' . $filename;
         }
 
-        $gallery = Gallery::create($data);
+        $gallery = Photo::create($data);
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Gallery item berhasil dibuat.',
+                'message' => 'Photo item berhasil dibuat.',
                 'data' => $gallery
             ], 201);
         }
 
         return redirect()->route('admin.gallery-photo.index', app()->getLocale())
-            ->with('success', 'Gallery item berhasil dibuat.');
+            ->with('success', 'Photo item berhasil dibuat.');
     }
 
     public function edit($locale, $gallery)
     {
-        $gallery = Gallery::findOrFail($gallery);
+        $gallery = Photo::findOrFail($gallery);
         return view('admin.gallery-photo.edit', compact('gallery'));
     }
 
     public function update(Request $request, $locale, $gallery)
     {
-        $gallery = Gallery::findOrFail($gallery);
+        $gallery = Photo::findOrFail($gallery);
 
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -83,7 +83,7 @@ class GalleryPhotoController extends Controller
         $gallery->update($data);
 
         return redirect()->route('admin.gallery-photo.index', app()->getLocale())
-            ->with('success', 'Gallery item berhasil diperbarui.');
+            ->with('success', 'Photo item berhasil diperbarui.');
     }
 
     public function destroy($locale, $gallery)
@@ -93,10 +93,10 @@ class GalleryPhotoController extends Controller
             'gallery_id' => $gallery
         ]);
 
-        $gallery = Gallery::find($gallery);
+        $gallery = Photo::find($gallery);
 
         if (!$gallery) {
-            \Log::warning('Gallery not found for ID: ' . $gallery);
+            \Log::warning('Photo not found for ID: ' . $gallery);
 
             if (request()->expectsJson() || request()->ajax()) {
                 return response()->json([
@@ -106,7 +106,7 @@ class GalleryPhotoController extends Controller
             }
 
             return redirect()->route('admin.gallery-photo.index', app()->getLocale())
-                ->with('error', 'Gallery item tidak ditemukan.');
+                ->with('error', 'Photo item tidak ditemukan.');
         }
 
         \Log::info('Found gallery:', [
@@ -135,6 +135,6 @@ class GalleryPhotoController extends Controller
         }
 
         return redirect()->route('admin.gallery-photo.index', app()->getLocale())
-            ->with('success', 'Gallery item berhasil dihapus.');
+            ->with('success', 'Photo item berhasil dihapus.');
     }
 }
