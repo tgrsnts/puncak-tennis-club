@@ -1,14 +1,26 @@
-<footer class="px-4 lg:px-36 py-8 bg-black text-white">
+<footer class="px-4 lg:px-36 py-8 bg-green-normal text-white">
     <div class="container mx-auto flex flex-wrap">
         <!-- Kolom Pertama -->
-        <div class="w-full lg:w-1/2 lg:pr-4">            
-            <img src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}" class="h-8 lg:h-16" alt="">
+        <div class="w-full lg:w-1/4 lg:pr-4">
+            <img src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}" class="h-8 lg:h-24" alt="">
             {{-- <p class="font-poppins text-white text-justify mb-4">
                 Find your tennis place
             </p> --}}
         </div>
         <!-- Kolom Kedua -->
-        <div class="w-full h-52 lg:h-auto lg:w-1/2 lg:pl-4">
+        <div class="w-full h-52 flex flex-col lg:h-auto lg:w-1/4 lg:pl-4">
+            <h3 class="text-xl font-poppins font-bold mb-4">Navigation</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <a href="">Booking</a>
+                <a href="">Photo</a>
+                <a href="">About</a>
+                <a href="">Video</a>
+                <a href="">Location</a>
+                <a href="">Partner</a>
+            </div>
+        </div>
+
+        <div class="w-full h-52 lg:h-auto lg:w-1/4 lg:pl-4">
             <h3 class="text-xl font-poppins font-bold mb-4">Hubungi Kami</h3>
             <div class="flex gap-3 items-center mb-4">
                 <i class="fa-solid fa-phone w-4"></i>
@@ -20,15 +32,24 @@
             </div>
             <div class="flex gap-3 items-center mb-4">
                 <i class="fa-solid fa-location-dot w-4"></i>
-                <span class="font-poppins">Jl. Puncak. 2, Bogor, Indonesia</span>
+                <span class="font-poppins">Jl. Sindang Subur Jl.Gandamanah, Tugu Sel., Kec. Cisarua, Kabupaten Bogor,
+                    Jawa Barat 16750, Indonesia</span>
             </div>
-            <!-- <div id="lokasi" class="flex flex-col items-center mt-2">
-                <h2 class="text-xl font-poppins font-bold mb-2 text-start w-full">Lokasi</h2>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d990.8655974168457!2d106.808518!3d-6.589305!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c57776d4956d%3A0x7d23c109e11fa013!2%20Makan%20Ananta Farm!5e0!3m2!1sid!2sid!4v1716653576602!5m2!1sid!2sid"
-                    class="w-full" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div> -->
+        </div>
+
+        <div class="w-full flex justify-center items-center gap-12 h-52 lg:h-auto lg:w-1/4 lg:pl-4">
+            <a
+                class="grid place-items-center h-fit p-4 bg-white/20 text-white rounded-full hover:bg-white/30 transition">
+                <i class="fa-brands fa-whatsapp w-4"></i>
+            </a>
+            <a
+                class="grid place-items-center h-fit p-4 bg-white/20 text-white rounded-full hover:bg-white/30 transition">
+                <i class="fa-brands fa-instagram w-4"></i>
+            </a>
+            <a
+                class="grid place-items-center h-fit p-4 bg-white/20 text-white rounded-full hover:bg-white/30 transition">
+                <i class="fa-brands fa-tiktok w-4"></i>
+            </a>
         </div>
     </div>
 </footer>

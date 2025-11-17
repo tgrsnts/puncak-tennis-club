@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MidtransNotificationController;
 use App\Http\Controllers\RegisterController;
 use App\Models\Coach;
@@ -17,10 +18,7 @@ use Illuminate\Support\Facades\Session;
 Route::prefix('{locale?}')
     ->where(['locale' => 'id|en'])
     ->group(function () {
-        Route::get('/', function () {
-            $coaches = Coach::all();
-            return view('index', ['coaches' => $coaches]);
-        })->name('home');
+        Route::get('/', [HomeController::class, 'index'])->name('home');
 
         Route::get('/login', fn() => view('auth.login'))->name('login');
         Route::post('/authenticate', [LoginController::class, 'login'])->name('login');

@@ -55,7 +55,7 @@ class BookingController extends Controller
             ->paginate(12)         // ✅ pakai pagination biar ringan
             ->withQueryString();   // keep query params saat paging
 
-        return view('user.booking.index', [
+        return view('user.booking.index', [          
             'filterDateDisplay' => $filterDateDisplay,
             'filterCoach'       => $filterCoach,
             'timetables'        => $timetables,
@@ -69,7 +69,9 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $id = $request->query('id');
-        $timetable = Timetable::query()->with('coach')->withCount(['bookings as current_slots' => function ($q) { $q->whereIn('status', ['pending', 'confirmed', 'completed']);}])->findOrFail($id);
+        $timetable = Timetable::query()->with('coach')->withCount(['bookings as current_slots' => function ($q) {
+            $q->whereIn('status', ['pending', 'confirmed', 'completed']);
+        }])->findOrFail($id);
 
         return view('user.booking.create', [
             'timetableId' => $id,

@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Coach;
+use App\Models\Timetable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
+class HomeController extends Controller
+{
+    public function index(Request $request)
+    {
+        $rawDate = $request->query('date');     // "YYYY-MM-DD" idealnya
+        $coachId = $request->query('coach_id'); // id coach
+
+        // Build tampilan filter tanggal
+        $filterDateDisplay = null;
+        if ($rawDate) {
+            try {
+                $filterDateDisplay = Carbon::parse($rawDate)
+                    ->locale('id')->translatedFormat('d F Y');
+            } catch (\Throwable $e) {
+                $filterDateDisplay = $rawDate;
+            }
+        }
+
+        $filterCoach = $coachId ? Coach::find($coachId) : null;
+
+        // Query utama — TIDAK dobel filter lagi
+        $timetables = Timetable::query()
+            ->with('coach')
+            // Hitung current_slots SEKALIGUS di query (hindari N+1)
+            ->withCount([
+                'bookings as current_slots' => function ($q) {
+                    $q->whereIn('status', ['pending', 'confirmed', 'completed']);
+                }
+            ])
+            // Filter opsional dari query string
+            ->when($rawDate, fn($q) => $q->whereDate('date', $rawDate))
+            ->when($coachId, fn($q) => $q->where('coach_id', $coachId))
+            // Saring H-1 jam
+            ->openForBooking()
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->paginate(12)         // ✅ pakai pagination biar ringan
+            ->withQueryString();   // keep query params saat paging
+
+        return view('index', [
+            'coaches'            => Coach::all(),
+            'filterDateDisplay' => $filterDateDisplay,
+            'filterCoach'       => $filterCoach,
+            'timetables'        => $timetables,
+        ]);
+    }
+}
