@@ -9,7 +9,18 @@ use Illuminate\Http\Request;
 class TimetableController extends Controller
 {
     public function index() {
-        $data = Timetable::all();
+        $data = Timetable::query()
+            ->with('coach')
+            // Hitung current_slots SEKALIGUS di query (hindari N+1)
+            ->withCount([
+                'bookings as current_slots' => function ($q) {
+                    $q->whereIn('status', ['pending', 'confirmed', 'completed']);
+                }
+            ])
+            ->openForBooking()
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->get();
         return view('admin.timetable.index', [
             'data' => $data
         ]);

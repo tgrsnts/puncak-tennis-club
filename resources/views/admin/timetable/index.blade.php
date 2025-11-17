@@ -24,7 +24,7 @@
                 <tbody>
                     @foreach ($data as $item)
                         @php
-                            $taken = $item->bookings_count ?? 0; // pake withCount di controller
+                            $taken = $item->current_slots ?? 0; // pake withCount di controller
                             $max = $item->max_slots;
                             $status = '';
 
