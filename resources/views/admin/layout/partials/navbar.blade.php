@@ -354,21 +354,37 @@
                     });
                 </script>
 
+                @if (Auth()->user())
+                    <li class="text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
+                        @if (Auth()->user()->role == 'admin')
+                            <div class="flex gap-4 items-center">
+                                <a href="/profile">
+                                    <img src="{{ asset('/assets/images/avatar-biru.webp') }}"
+                                        class="w-8 h-8 rounded-full" alt="">
+                                </a>
 
-                <li class="text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
-                    <a href="/profile" class="flex gap-4 items-center">
-                        <img src="{{ asset('/assets/images/avatar-biru.webp') }}" class="w-8 h-8 rounded-full"
-                            alt="">
-                        <div>
-                            <div>
-                                <div>{{ Auth()->user()->name }}</div>
-                                @if (Auth()->user()->role == 'admin')
-                                    <div class="text-xs text-gray-500">Admin</div>
-                                @endif
+                                <div class="flex flex-col">
+                                    <a href="/profile" class="font-medium">
+                                        {{ Auth()->user()->name }}
+                                    </a>
+
+                                    <a href="{{ route('admin.index') }}"
+                                        class="text-xs text-gray-500 hover:text-gray-700">
+                                        Admin
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </li>
+                        @else
+                            <a href="/profile" class="flex gap-4 items-center">
+                                <img src="{{ asset('/assets/images/avatar-biru.webp') }}" class="w-8 h-8 rounded-full"
+                                    alt="">
+                                <div>
+                                    <div>{{ Auth()->user()->name }}</div>
+                                </div>
+                            </a>
+                        @endif
+                    </li>
+                @endif
             </ul>
         </nav>
     </div>
