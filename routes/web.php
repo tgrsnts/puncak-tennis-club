@@ -24,7 +24,7 @@ Route::prefix('{locale?}')
 
         Route::get('/login', fn() => view('auth.login'))->name('login');
         Route::post('/authenticate', [LoginController::class, 'login'])->name('login');
-       
+
         Route::get('/register', [RegisterController::class, 'showStep1'])->name('register.step1');
         Route::post('/register', [RegisterController::class, 'handleStep1'])->name('register.step1.submit');
 
@@ -64,57 +64,59 @@ Route::prefix('{locale?}')
         });
 
 
-        Route::prefix('admin')->name('admin.')->group(function () {
-            Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::group(['middleware' => 'admin'], function () {
+            Route::prefix('admin')->name('admin.')->group(function () {
+                Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-            // ======== ORDER ========
-            Route::prefix('order')->name('order.')->group(function () {
-                Route::get('/', [OrderController::class, 'index'])->name('index');
-                Route::get('/create', [OrderController::class, 'create'])->name('create');
-                Route::post('/', [OrderController::class, 'store'])->name('store');
-                Route::get('/{gallery}/edit', [OrderController::class, 'edit'])->name('edit');
-                Route::put('/{gallery}', [OrderController::class, 'update'])->name('update');
-                Route::delete('/{gallery}', [OrderController::class, 'destroy'])->name('destroy');
+                // ======== ORDER ========
+                Route::prefix('order')->name('order.')->group(function () {
+                    Route::get('/', [OrderController::class, 'index'])->name('index');
+                    Route::get('/create', [OrderController::class, 'create'])->name('create');
+                    Route::post('/', [OrderController::class, 'store'])->name('store');
+                    Route::get('/{gallery}/edit', [OrderController::class, 'edit'])->name('edit');
+                    Route::put('/{gallery}', [OrderController::class, 'update'])->name('update');
+                    Route::delete('/{gallery}', [OrderController::class, 'destroy'])->name('destroy');
+                });
+
+                // ======== GALLERY PHOTO ========
+                Route::prefix('gallery-photo')->name('gallery-photo.')->group(function () {
+                    Route::get('/', [GalleryPhotoController::class, 'index'])->name('index');
+                    Route::get('/create', [GalleryPhotoController::class, 'create'])->name('create');
+                    Route::post('/', [GalleryPhotoController::class, 'store'])->name('store');
+                    Route::get('/{gallery}/edit', [GalleryPhotoController::class, 'edit'])->name('edit');
+                    Route::put('/{gallery}', [GalleryPhotoController::class, 'update'])->name('update');
+                    Route::delete('/{gallery}', [GalleryPhotoController::class, 'destroy'])->name('destroy');
+                });
+
+                // ======== GALLERY VIDEO ========
+                Route::prefix('gallery-video')->name('gallery-video.')->group(function () {
+                    Route::get('/', [GalleryVideoController::class, 'index'])->name('index');
+                    Route::get('/create', [GalleryVideoController::class, 'create'])->name('create');
+                    Route::post('/', [GalleryVideoController::class, 'store'])->name('store');
+                    Route::get('/{video}/edit', [GalleryVideoController::class, 'edit'])->name('edit');
+                    Route::put('/{video}', [GalleryVideoController::class, 'update'])->name('update');
+                    Route::delete('/{video}', [GalleryVideoController::class, 'destroy'])->name('destroy');
+                });
+
+                // ======== TIMETABLE ========
+                Route::prefix('timetable')->name('timetable.')->group(function () {
+                    Route::get('/', [TimetableController::class, 'index'])->name('index');
+                    Route::get('/create', [TimetableController::class, 'create'])->name('create');
+                    Route::post('/', [TimetableController::class, 'store'])->name('store');
+                    Route::get('/{id}/edit', [TimetableController::class, 'edit'])->name('edit');
+                    Route::put('/{id}', [TimetableController::class, 'update'])->name('update');
+                    Route::delete('/{id}', [TimetableController::class, 'destroy'])->name('destroy');
+                });
+
+                // Admin payment control for testing
+                Route::prefix('payment')->name('payment.')->group(function () {
+                    Route::post('/{payment}/settle', [\App\Http\Controllers\Admin\PaymentController::class, 'settle'])->name('settle');
+                    Route::post('/{payment}/expire', [\App\Http\Controllers\Admin\PaymentController::class, 'expire'])->name('expire');
+                });
             });
 
-            // ======== GALLERY PHOTO ========
-            Route::prefix('gallery-photo')->name('gallery-photo.')->group(function () {
-                Route::get('/', [GalleryPhotoController::class, 'index'])->name('index');
-                Route::get('/create', [GalleryPhotoController::class, 'create'])->name('create');
-                Route::post('/', [GalleryPhotoController::class, 'store'])->name('store');
-                Route::get('/{gallery}/edit', [GalleryPhotoController::class, 'edit'])->name('edit');
-                Route::put('/{gallery}', [GalleryPhotoController::class, 'update'])->name('update');
-                Route::delete('/{gallery}', [GalleryPhotoController::class, 'destroy'])->name('destroy');
-            });
-
-            // ======== GALLERY VIDEO ========
-            Route::prefix('gallery-video')->name('gallery-video.')->group(function () {
-                Route::get('/', [GalleryVideoController::class, 'index'])->name('index');
-                Route::get('/create', [GalleryVideoController::class, 'create'])->name('create');
-                Route::post('/', [GalleryVideoController::class, 'store'])->name('store');
-                Route::get('/{video}/edit', [GalleryVideoController::class, 'edit'])->name('edit');
-                Route::put('/{video}', [GalleryVideoController::class, 'update'])->name('update');
-                Route::delete('/{video}', [GalleryVideoController::class, 'destroy'])->name('destroy');
-            });
-
-            // ======== TIMETABLE ========
-            Route::prefix('timetable')->name('timetable.')->group(function () {
-                Route::get('/', [TimetableController::class, 'index'])->name('index');
-                Route::get('/create', [TimetableController::class, 'create'])->name('create');
-                Route::post('/', [TimetableController::class, 'store'])->name('store');
-                Route::get('/{id}/edit', [TimetableController::class, 'edit'])->name('edit');
-                Route::put('/{id}', [TimetableController::class, 'update'])->name('update');
-                Route::delete('/{id}', [TimetableController::class, 'destroy'])->name('destroy');
-            });
-
-            // Admin payment control for testing
-            Route::prefix('payment')->name('payment.')->group(function () {
-                Route::post('/{payment}/settle', [\App\Http\Controllers\Admin\PaymentController::class, 'settle'])->name('settle');
-                Route::post('/{payment}/expire', [\App\Http\Controllers\Admin\PaymentController::class, 'expire'])->name('expire');
-            });
+            Route::get('/profile', fn() => view('admin.profile.index'))->name('profile');
         });
-
-        Route::get('/profile', fn() => view('admin.profile.index'))->name('profile');
     });
 
 // (Opsional) Redirect otomatis untuk URL tanpa prefix locale
