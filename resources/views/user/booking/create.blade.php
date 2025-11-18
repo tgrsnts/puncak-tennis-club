@@ -144,7 +144,7 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-gray-600">Waktu</span>
-                            <span class="font-medium">{{ $timetable->start_time }} – {{ $timetable->end_time }}</span>
+                            <span class="font-medium">{{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }} – {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-gray-600">Coach</span>
