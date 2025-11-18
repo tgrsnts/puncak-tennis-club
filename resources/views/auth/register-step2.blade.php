@@ -34,7 +34,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="mt-4 w-full bg-green-normal hover:bg-green-normal-hover text-white py-2 rounded-md">
+        <button type="submit" class="mt-4 w-full bg-green-normal hover:bg-green-normal-hover text-white py-2 rounded-md hover:cursor-pointer">
             Selesai
         </button>
     </form>

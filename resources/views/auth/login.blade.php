@@ -58,7 +58,7 @@
                         </div>
 
                         <button type="submit"
-                            class="mt-4 p-3 rounded-md bg-yellow-normal hover:bg-yellow-normal-hover text-white">
+                            class="mt-4 p-3 rounded-md bg-yellow-normal hover:bg-yellow-normal-hover text-white hover:cursor-pointer">
                             Sign In
                         </button>
 

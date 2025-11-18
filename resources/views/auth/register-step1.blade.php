@@ -64,7 +64,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="mt-4 p-3 rounded-md bg-yellow-normal hover:bg-yellow-normal-hover text-white">
+        <button type="submit" class="mt-4 p-3 rounded-md bg-yellow-normal hover:bg-yellow-normal-hover text-white hover:cursor-pointer">
             Sign Up
         </button>
 
