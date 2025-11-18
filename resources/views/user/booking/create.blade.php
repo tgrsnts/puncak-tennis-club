@@ -102,13 +102,13 @@
                         <div>
                             <label class="block text-sm text-gray-600 mb-1">Nama Lengkap</label>
                             <input type="text" name="name" required
-                                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
+                                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal placeholder:text-slate-500"
                                 placeholder="Nama kamu" value="{{ $user->name ?? '' }}">
                         </div>
                         <div>
                             <label class="block text-sm text-gray-600 mb-1">No. WhatsApp</label>
                             <input type="tel" name="phone" required
-                                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
+                                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal placeholder:text-slate-500"
                                 placeholder="08xxxxxxxxxx" value="{{ $user->telepon ?? '' }}">
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                         <div>
                             <label class="block text-sm text-gray-600 mb-1">Catatan (opsional)</label>
                             <input type="text" name="note"
-                                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal"
+                                class="w-full rounded-xl border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-normal placeholder:text-slate-500"
                                 placeholder="Contoh: butuh raket pinjaman">
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                             Kembali
                         </a>
                         <button type="submit"
-                            class="rounded-xl px-5 py-2.5 text-sm font-semibold text-white {{ $isFull ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-normal hover:bg-green-normal-hover' }}"
+                            class="rounded-xl px-5 py-2.5 text-sm font-semibold text-white {{ $isFull ? 'bg-gray-300 cursor-not-allowed' : 'bg-green-normal hover:bg-green-normal-hover hover:cursor-pointer' }}"
                             {{ $isFull ? 'disabled' : '' }}>
                             Konfirmasi Booking
                         </button>
