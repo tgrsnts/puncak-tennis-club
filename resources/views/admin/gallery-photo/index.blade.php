@@ -14,7 +14,7 @@
         <div class="mt-4">
             @forelse ($galleries as $gallery)
                 @if ($loop->first)
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 @endif
 
                     <div class="rounded-lg bg-white shadow-lg flex flex-col gallery-item" data-id="{{ $gallery->id }}">

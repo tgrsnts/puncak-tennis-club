@@ -1,5 +1,5 @@
 <nav id="sidebar"
-    class="transition-all duration-300 fixed left-0 h-full w-80 bg-green-normal z-11 flex flex-col gap-1 pr-12 font-sans text-base font-normal text-blue-gray-700">
+    class="-ml-80 lg:ml-0 transition-all duration-300 fixed left-0 h-full w-80 bg-green-normal z-11 flex flex-col gap-1 pr-12 font-sans text-base font-normal text-blue-gray-700">
     <div class="flex flex-col justify-between h-full pb-4">
         <div class="flex flex-col gap-1">
             <div class="flex w-64  h-20 justify-center">

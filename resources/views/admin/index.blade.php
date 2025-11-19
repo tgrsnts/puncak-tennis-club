@@ -4,7 +4,7 @@
 
 @section('content')
     <section id="dashboard" class="min-h-screen font-poppins w-full flex flex-col gap-4 p-4 pb-20 bg-slate-50">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 w-full">
                 <div class="flex justify-between">
                     <div>

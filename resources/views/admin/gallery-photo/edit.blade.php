@@ -17,9 +17,9 @@
                 @method('PUT')
                 
                 <!-- GRID: 2 kolom, Title span 2 -->
-                <div class="grid grid-cols-2 gap-6 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     <!-- Row 1: Title (span 2) -->
-                    <div class="col-span-2">
+                    <div class="lg:col-span-2">
                         <label for="title" class="block text-left">Title</label>
                         <input
                             class="w-full p-2 border border-slate-400 focus:outline focus:outline-green-normal rounded-lg"

@@ -26,7 +26,7 @@
         @include('user.layout.partials.navbar')
         <div class="flex transition-all duration-300">
             @include('user.layout.partials.sidebar')
-            <div id="mainContent" class="mt-20 ml-80 flex flex-col w-full transition-all duration-300">
+            <div id="mainContent" class="mt-20 lg:ml-80 flex flex-col w-full transition-all duration-300">
                 @yield('content')
             </div>
         </div>
@@ -47,10 +47,12 @@
 
             if (toggleBtn && sidebar && content) {
                 toggleBtn.addEventListener('click', () => {
-                    navbar.classList.toggle('pl-80');
-                    navbar.classList.toggle('pl-0');
-                    sidebar.classList.toggle('-ml-80');
-                    content.classList.toggle('ml-80');
+                    navbar.classList.toggle('lg:pl-80');
+                    navbar.classList.toggle('lg:pl-0');
+                    sidebar.classList.toggle('lg:ml-0');    
+                    sidebar.classList.toggle('lg:-ml-80');                    
+                    sidebar.classList.toggle('ml-0');
+                    content.classList.toggle('lg:ml-80');
                     content.classList.toggle('ml-0');
                 });
             }

@@ -1,29 +1,62 @@
 <nav id="sidebar"
-    class="transition-all duration-300 fixed left-0 h-full w-80 bg-green-normal z-11 flex flex-col gap-1 pr-12 font-sans text-base font-normal text-blue-gray-700">
+    class="-ml-80 lg:ml-0 transition-all duration-300 fixed left-0 h-full w-80 bg-green-normal z-11 flex flex-col gap-1 pr-12 font-sans text-base font-normal text-blue-gray-700">
     <div class="flex flex-col justify-between h-full pb-4">
-        <div class="flex flex-col gap-1">
-            <div class="flex w-64  h-20 justify-center">
-                <a href="/" class="flex items-center gap-2 whitespace-nowrap text-2xl">
-                    <img class="h-8" src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}" alt="">
+        <div class="flex flex-col items-between h-full">
+            <div class="flex flex-col gap-1">
+                <div class="flex w-64  h-20 justify-center">
+                    <a href="/" class="flex items-center gap-2 whitespace-nowrap text-2xl">
+                        <img class="h-8" src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}"
+                            alt="">
+                    </a>
+                </div>
+
+                <a href="/booking"
+                    class="{{ Request::is('*/booking') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-list"></i>
+                    </div>
+                    Booking
+                </a>
+
+                <a href="/history"
+                    class="{{ Request::is('*/history') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    Riwayat Booking
                 </a>
             </div>
-            
-            <a href="/booking"
-                class="{{ Request::is('*/booking') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-list"></i>
-                </div>
-                Booking
-            </a>
 
-                  
-            <a href="/history"
-                class="{{ Request::is('*/history') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-clock"></i>
-                </div>
-                Riwayat Booking
-            </a>
+        </div>
+        <div class="flex flex-col gap-1">
+            @if (Auth()->user())
+                @if (Auth()->user()->role == 'admin')
+                    <a href="/profile"
+                        class="{{ Request::is('*/profile') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                        <img src="{{ asset('/assets/images/avatar-biru.webp') }}" class="w-8 h-8 mr-4 rounded-full"
+                            alt="">
+                        <div>
+                            <div>{{ Auth()->user()->name }}</div>
+                        </div>
+                    </a>
+                    <a href="{{ route('admin.index') }}"
+                        class="lg:hidden {{ Request::is('*/profile') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                        <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                            <i class="fa-solid fa-gear"></i>
+                        </div>
+                        Admin
+                    </a>
+                @else
+                    <a href="/profile"
+                        class="{{ Request::is('*/profile') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                        <img src="{{ asset('/assets/images/avatar-biru.webp') }}" class="w-8 h-8 mr-4 rounded-full"
+                            alt="">
+                        <div>
+                            <div>{{ Auth()->user()->name }}</div>
+                        </div>
+                    </a>
+                @endif
+            @endif
 
             <form action="{{ route('logout', app()->getLocale()) }}" method="POST" id="logout-form">
                 @csrf
@@ -36,7 +69,8 @@
                 </button>
             </form>
         </div>
-        {{-- <a href="/user/profile"
+    </div>
+    {{-- <a href="/user/profile"
             class="{{ $currentRoute == 'user/staycation' ? 'text-green-normal bg-white' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
             <div class="flex w-12 h-12 mr-4 items-center justify-center">
                 <img class="w-full aspect-square rounded-full"
