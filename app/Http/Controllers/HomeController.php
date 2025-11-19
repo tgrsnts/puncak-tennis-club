@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Coach;
 use App\Models\Photo;
 use App\Models\Timetable;
+use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -51,14 +52,31 @@ class HomeController extends Controller
 
         if ($photos->isEmpty()) {
             $photoUrls = [
-                        '/assets/images/photo (1).png',
-                        '/assets/images/photo (2).png',
-                        '/assets/images/photo (3).png',
-                        '/assets/images/photo (4).png',
-                        '/assets/images/photo (5).png',
+                '/assets/images/photo (1).png',
+                '/assets/images/photo (2).png',
+                '/assets/images/photo (3).png',
+                '/assets/images/photo (4).png',
+                '/assets/images/photo (5).png',
             ];
         } else {
             $photoUrls = $photos->map(function ($p) {
+                return asset($p->img);
+            });
+        }
+
+
+        $videos = Video::all();
+
+        if ($videos->isEmpty()) {
+            $videoUrls = [
+                '/assets/videos/video (1).mp4',
+                '/assets/videos/video (2).mp4',
+                '/assets/videos/video (3).mp4',
+                '/assets/videos/video (4).mp4',
+                '/assets/videos/video (5).mp4',
+            ];
+        } else {
+            $videoUrls = $videos->map(function ($p) {
                 return asset($p->img);
             });
         }
@@ -69,7 +87,8 @@ class HomeController extends Controller
             'filterDateDisplay' => $filterDateDisplay,
             'filterCoach'       => $filterCoach,
             'timetables'        => $timetables,
-            'photoUrls'            => $photoUrls,
+            'photoUrls'         => $photoUrls,
+            'videoUrls'         => $videoUrls
         ]);
     }
 }

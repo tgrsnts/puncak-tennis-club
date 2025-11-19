@@ -20,8 +20,7 @@
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
-
-        {{-- Password --}}
+         {{-- Password --}}
         <div class="flex flex-col">
             <label for="password">Password</label>
             <div class="relative">

@@ -293,7 +293,7 @@
         </div>
     </section>
 
-    <section class="h-screen bg-white flex flex-col items-center gap-20 px-20">
+    <section class="bg-white flex flex-col items-center gap-20 px-20 py-20">
         <h2 class="font-bold text-green-normal text-4xl">Photo</h2>
 
         <div x-data="photoCarousel(@js($photoUrls))" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
@@ -307,13 +307,13 @@
             <div x-ref="track" @scroll.passive="onScroll"
                 class="mt-4 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-12">
                 <template x-for="(src, i) in loopImages" :key="i">
-                    <div class="snap-center shrink-0 transition-all duration-500 ease-out"
+                    <div data-carousel-item class="snap-center shrink-0 transition-all duration-500 ease-out"
                         :class="centerVirtual === i ?
                             'scale-110 z-1' :
                             'scale-90 opacity-80 z-0'">
                         <img :src="src" alt=""
                             class="block rounded-2xl shadow-md object-cover
-                      w-40 h-56 sm:w-48 sm:h-64 md:w-56 md:h-72 lg:w-64 lg:h-80">
+                  w-40 h-56 sm:w-48 sm:h-64 md:w-56 md:h-72 lg:w-64 lg:h-80">
                     </div>
                 </template>
             </div>
@@ -342,55 +342,42 @@
                     images: initialImages,
                     CLONE: 2,
                     loopImages: [],
-                    centerVirtual: 2, // gunakan ini untuk efek besar-kecil
-                    centerIndex: 2, // index asli (opsional, buat caption dlsb)
+                    centerVirtual: 2,
+                    centerIndex: 2,
                     step: 0,
                     autoTimer: null,
+                    _t: null,
 
                     init() {
-                        // clones kiri/kanan
                         const head = this.images.slice(0, this.CLONE);
                         const tail = this.images.slice(-this.CLONE);
                         this.loopImages = [...tail, ...this.images, ...head];
-                        // di init(), setelah this.loopImages dibentuk:
-                        this.$nextTick(() => {
-                            // posisikan ke item ‘tengah’ (mis. index real ke-3)
-                            const startVirtual = this.CLONE + 2; // 2 => gambar ke-3 (0-based)
-                            this.scrollToIndex(startVirtual, false);
-                            this.updateCenter();
-
-                        });
 
                         this.$nextTick(() => {
-                            // ukuran langkah = lebar kartu + gap
-                            const anyImg = this.$refs.track.querySelector('img');
-                            const gap = 32; // gap-8 = 2rem = 32px
+                            const track = this.$refs.track;
+                            const anyImg = track.querySelector('[data-carousel-item] img');
+                            const gap = 32;
                             this.step = anyImg ? anyImg.clientWidth + gap : 400;
 
-                            // posisikan awal ke item real pertama (virtual = CLONE)
                             this.scrollToIndex(this.CLONE, false);
                             this.updateCenter();
-
-                            this.$refs.track.addEventListener('scroll', this.onScroll, {
-                                passive: true
-                            });
-
-                            window.addEventListener('resize', () => {
-                                const img2 = this.$refs.track.querySelector('img');
-                                this.step = img2 ? img2.clientWidth + gap : 400;
-                                // re-center tanpa animasi
-                                this.scrollToIndex(this.centerVirtual, false);
-                                this.updateCenter();
-                            }, {
-                                passive: true
-                            });
                         });
 
-                        // autoplay
+                        window.addEventListener('resize', () => {
+                            const track = this.$refs.track;
+                            const img2 = track.querySelector('[data-carousel-item] img');
+                            const gap = 32;
+                            this.step = img2 ? img2.clientWidth + gap : 400;
+                            this.scrollToIndex(this.centerVirtual, false);
+                            this.updateCenter();
+                        }, {
+                            passive: true
+                        });
+
                         this.play();
                     },
 
-                    onScroll: function() {
+                    onScroll() {
                         clearTimeout(this._t);
                         this._t = setTimeout(() => {
                             this.updateCenter();
@@ -414,10 +401,9 @@
                         this.scrollToIndex(this.centerVirtual - 1);
                     },
 
-                    // SCROLL KE TENGAH LAYAR (bukan ke kiri)
                     scrollToIndex(vIndex, smooth = true) {
                         const track = this.$refs.track;
-                        const kids = track.children;
+                        const kids = Array.from(track.querySelectorAll('[data-carousel-item]'));
                         const clamp = i => Math.max(0, Math.min(i, kids.length - 1));
                         const idx = clamp(vIndex);
 
@@ -429,24 +415,21 @@
                             behavior: smooth ? 'smooth' : 'auto'
                         });
 
-                        // Setelah scroll selesai, sinkronkan 'centerVirtual'
-                        // (tunggu frame berikutnya supaya posisi final terbaca)
                         requestAnimationFrame(() => this.updateCenter());
                     },
 
-                    // DETEKSI ELEMEN PALING TENGAH DENGAN RECT
                     updateCenter() {
                         const track = this.$refs.track;
-                        const kids = Array.from(track.children);
-                        const tr = track.getBoundingClientRect();
-                        const midX = tr.left + tr.width / 2;
+                        const kids = Array.from(track.querySelectorAll('[data-carousel-item]'));
 
-                        let nearest = 0,
-                            minDiff = Infinity;
+                        const midX = track.scrollLeft + track.clientWidth / 2;
+
+                        let nearest = 0;
+                        let minDiff = Infinity;
+
                         kids.forEach((el, i) => {
-                            const r = el.getBoundingClientRect();
-                            const center = r.left + r.width / 2;
-                            const d = Math.abs(center - midX);
+                            const cardCenter = el.offsetLeft + el.offsetWidth / 2;
+                            const d = Math.abs(cardCenter - midX);
                             if (d < minDiff) {
                                 minDiff = d;
                                 nearest = i;
@@ -455,12 +438,10 @@
 
                         this.centerVirtual = nearest;
 
-                        // index asli (0..N-1) bila perlu
                         const real = (nearest - this.CLONE + this.images.length) % this.images.length;
                         this.centerIndex = real;
                     },
 
-                    // INFINITE: lompat diam-diam saat masuk area clone
                     normalizeIfNeeded() {
                         const firstReal = this.CLONE;
                         const lastReal = this.CLONE + this.images.length - 1;
@@ -471,6 +452,197 @@
                             this.centerVirtual = target;
                         } else if (this.centerVirtual >= lastReal + 1) {
                             const target = this.centerVirtual - this.images.length;
+                            this.scrollToIndex(target, false);
+                            this.centerVirtual = target;
+                        }
+                    }
+                }
+            }
+        </script>
+
+        <h2 class="font-bold text-green-normal text-4xl">Video</h2>
+
+        <div x-data="videoCarousel(@js($videoUrls))" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
+            <!-- Tombol kiri -->
+            <button @click="prev()"
+                class="grid place-items-center
+         h-8 w-8 rounded-full bg-green-600 text-white shadow hover:bg-green-700"
+                aria-label="Prev">‹</button>
+
+            <!-- Track -->
+            <div x-ref="track" @scroll.passive="onScroll"
+                class="mt-4 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-12">
+                <template x-for="(src, i) in loopVideos" :key="i">
+                    <div data-carousel-item class="snap-center shrink-0 transition-all duration-500 ease-out"
+                        :class="centerVirtual === i ?
+                            'scale-110 z-10' :
+                            'scale-90 opacity-80 z-0'">
+                        <video :src="src" muted loop playsinline
+                            class="block rounded-2xl shadow-md object-cover
+                    w-40 h-56 sm:w-48 sm:h-64 md:w-56 md:h-72 lg:w-64 lg:h-80">
+                        </video>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Tombol kanan -->
+            <button @click="next()"
+                class="grid place-items-center
+         h-8 w-8 rounded-full bg-green-600 text-white shadow hover:bg-green-700"
+                aria-label="Next">›</button>
+        </div>
+
+        <style>
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+
+        <script>
+            function videoCarousel(initialVideos = []) {
+                return {
+                    videos: initialVideos,
+                    CLONE: 2,
+                    loopVideos: [],
+                    centerVirtual: 2,
+                    centerIndex: 2,
+                    step: 0,
+                    autoTimer: null,
+                    _t: null,
+
+                    init() {
+                        if (!this.videos.length) return;
+
+                        const head = this.videos.slice(0, this.CLONE);
+                        const tail = this.videos.slice(-this.CLONE);
+                        this.loopVideos = [...tail, ...this.videos, ...head];
+
+                        this.$nextTick(() => {
+                            const track = this.$refs.track;
+                            const anyVideo = track.querySelector('[data-carousel-item] video');
+                            const gap = 32;
+                            this.step = anyVideo ? anyVideo.clientWidth + gap : 400;
+
+                            this.scrollToIndex(this.CLONE, false);
+                            this.updateCenter();
+                        });
+
+                        window.addEventListener('resize', () => {
+                            const track = this.$refs.track;
+                            const v2 = track.querySelector('[data-carousel-item] video');
+                            const gap = 32;
+                            this.step = v2 ? v2.clientWidth + gap : 400;
+                            this.scrollToIndex(this.centerVirtual, false);
+                            this.updateCenter();
+                        }, {
+                            passive: true
+                        });
+
+                        this.play();
+                    },
+
+                    onScroll() {
+                        clearTimeout(this._t);
+                        this._t = setTimeout(() => {
+                            this.updateCenter();
+                            this.normalizeIfNeeded();
+                        }, 40);
+                    },
+
+                    play() {
+                        this.stop();
+                        this.autoTimer = setInterval(() => this.next(), 5000);
+                    },
+                    stop() {
+                        if (this.autoTimer) clearInterval(this.autoTimer);
+                        this.autoTimer = null;
+                    },
+
+                    next() {
+                        this.scrollToIndex(this.centerVirtual + 1);
+                    },
+                    prev() {
+                        this.scrollToIndex(this.centerVirtual - 1);
+                    },
+
+                    scrollToIndex(vIndex, smooth = true) {
+                        const track = this.$refs.track;
+                        const kids = Array.from(track.querySelectorAll('[data-carousel-item]'));
+                        const clamp = i => Math.max(0, Math.min(i, kids.length - 1));
+                        const idx = clamp(vIndex);
+
+                        const card = kids[idx];
+                        const leftAbs = card.offsetLeft - (track.clientWidth - card.clientWidth) / 2;
+
+                        track.scrollTo({
+                            left: leftAbs,
+                            behavior: smooth ? 'smooth' : 'auto'
+                        });
+
+                        requestAnimationFrame(() => this.updateCenter());
+                    },
+
+                    updateCenter() {
+                        const track = this.$refs.track;
+                        const kids = Array.from(track.querySelectorAll('[data-carousel-item]'));
+
+                        const midX = track.scrollLeft + track.clientWidth / 2;
+
+                        let nearest = 0;
+                        let minDiff = Infinity;
+
+                        kids.forEach((el, i) => {
+                            const cardCenter = el.offsetLeft + el.offsetWidth / 2;
+                            const d = Math.abs(cardCenter - midX);
+                            if (d < minDiff) {
+                                minDiff = d;
+                                nearest = i;
+                            }
+                        });
+
+                        this.centerVirtual = nearest;
+
+                        const real = (nearest - this.CLONE + this.videos.length) % this.videos.length;
+                        this.centerIndex = real;
+
+                        this.$nextTick(() => this.syncVideos());
+                    },
+
+                    syncVideos() {
+                        const track = this.$refs.track;
+                        if (!track) return;
+
+                        const kids = Array.from(track.querySelectorAll('[data-carousel-item]'));
+
+                        kids.forEach((el, i) => {
+                            const vid = el.querySelector('video');
+                            if (!vid) return;
+
+                            if (i === this.centerVirtual) {
+                                if (vid.paused) {
+                                    vid.play().catch(() => {});
+                                }
+                            } else {
+                                vid.pause();
+                            }
+                        });
+                    },
+
+                    normalizeIfNeeded() {
+                        const firstReal = this.CLONE;
+                        const lastReal = this.CLONE + this.videos.length - 1;
+
+                        if (this.centerVirtual <= firstReal - 1) {
+                            const target = this.centerVirtual + this.videos.length;
+                            this.scrollToIndex(target, false);
+                            this.centerVirtual = target;
+                        } else if (this.centerVirtual >= lastReal + 1) {
+                            const target = this.centerVirtual - this.videos.length;
                             this.scrollToIndex(target, false);
                             this.centerVirtual = target;
                         }

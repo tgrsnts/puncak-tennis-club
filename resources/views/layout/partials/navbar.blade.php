@@ -35,7 +35,7 @@
                 </li>
                 <li
                     class="text-green-normal border-b-2 border-transparent hover:border-green-normal {{ Request::is('photo') ? 'border-green-normal' : '' }}">
-                    <a href="/photo">Photo</a>
+                    <a href="#photo">Photo</a>
                 </li>
                 <li
                     class="text-green-normal border-b-2 border-transparent hover:border-green-normal {{ Request::is('video') ? 'border-green-normal' : '' }}">
@@ -43,7 +43,7 @@
                 </li>
                 <li
                     class="text-green-normal border-b-2 border-transparent hover:border-green-normal {{ Request::is('contact') ? 'border-green-normal' : '' }}">
-                    <a href="/contact">Contact</a>
+                    <a href="#contact">Contact</a>
                 </li>
             </ul>
         </nav>
