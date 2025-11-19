@@ -5,8 +5,10 @@ namespace Database\Seeders;
 use App\Models\Booking;
 use App\Models\Coach;
 use App\Models\Payment;
+use App\Models\Photo;
 use App\Models\Timetable;
 use App\Models\User;
+use App\Models\Video;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -42,6 +44,70 @@ class DatabaseSeeder extends Seeder
             "telepon" => "0879076582341"
         ]);
 
+        Photo::create([
+            'title' => 'Photo 1',
+            'content' => 'Photo 1.',
+            'img' => '/assets/images/photo (1).png',
+        ]);
+
+        Photo::create([
+            'title' => 'Photo 2',
+            'content' => 'Photo 2.',
+            'img' => '/assets/images/photo (2).png',
+        ]);
+
+        Photo::create([
+            'title' => 'Photo 3',
+            'content' => 'Photo 3.',
+            'img' => '/assets/images/photo (3).png',
+        ]);
+
+        Photo::create([
+            'title' => 'Photo 4',
+            'content' => 'Photo 4.',
+            'img' => '/assets/images/photo (4).png',
+        ]);
+
+        Photo::create([
+            'title' => 'Photo 5',
+            'content' => 'Photo 5.',
+            'img' => '/assets/images/photo (5).png',
+        ]);
+
+        Video::create([
+            'title' => 'Video 1',
+            'content' => 'Video 1.',
+            'video_path' => '/assets/videos/video (1).mp4',
+            'type' => 'local',
+        ]);
+
+        Video::create([
+            'title' => 'Video 2',
+            'content' => 'Video 2.',
+            'video_path' => '/assets/videos/video (2).mp4',
+            'type' => 'local',
+        ]);
+
+        Video::create([
+            'title' => 'Video 3',
+            'content' => 'Video 3.',
+            'video_path' => '/assets/videos/video (3).mp4',
+            'type' => 'local',
+        ]);
+
+        Video::create([
+            'title' => 'Video 4',
+            'content' => 'Video 4.',
+            'video_path' => '/assets/videos/video (4).mp4',
+            'type' => 'local',
+        ]);
+
+        Video::create([
+            'title' => 'Video 5',
+            'content' => 'Video 5.',
+            'video_path' => '/assets/videos/video (5).mp4',
+            'type' => 'local',
+        ]);
         Coach::create([
             'name' => 'Achmad Fauzal',
             'specialty' => 'Beginner Coaching',

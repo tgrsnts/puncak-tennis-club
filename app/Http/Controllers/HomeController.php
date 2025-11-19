@@ -76,8 +76,8 @@ class HomeController extends Controller
                 '/assets/videos/video (5).mp4',
             ];
         } else {
-            $videoUrls = $videos->map(function ($p) {
-                return asset($p->img);
+            $videoUrls = $videos->map(function ($v) {
+                return asset($v->video_path);
             });
         }
 
