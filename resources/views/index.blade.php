@@ -475,7 +475,7 @@
                 <template x-for="(src, i) in loopVideos" :key="i">
                     <div data-carousel-item class="snap-center shrink-0 transition-all duration-500 ease-out"
                         :class="centerVirtual === i ?
-                            'scale-110 z-10' :
+                            'scale-110 z-1' :
                             'scale-90 opacity-80 z-0'">
                         <video :src="src" muted loop playsinline
                             class="block rounded-2xl shadow-md object-cover
