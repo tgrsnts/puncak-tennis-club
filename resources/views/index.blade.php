@@ -23,13 +23,13 @@
 
         </div>
         <div class="relative flex justify-center bottom-0 w-full">
-            <svg class="bottom-0 rotate-180 absolute z-1 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
-                fill="none">
+            <svg class="bottom-0 rotate-180 absolute z-1 w-full lg:w-fit h-8 lg:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
+                fill="none" preserveAspectRatio="none">
                 <path
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
-            <h2 class="font-bold text-green-normal text-4xl absolute z-2">Jadwal Tersedia</h2>
+            <h2 class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2 bottom-0">Jadwal Tersedia</h2>
         </div>
     </section>
 
@@ -39,14 +39,14 @@
         @endphp
 
         @if ($count <= 2)
-            <div class="w-full py-20">
+            <div class="w-full py-12 lg:py-20">
                 <div class="flex justify-center gap-6 flex-wrap">
                     @foreach ($timetables as $timetable)
                         <div
-                            class="min-w-[280px] md:min-w-[340px] rounded-3xl bg-green-normal shadow-md border border-gray-100 p-5 pt-0 flex flex-col gap-4 snap-center">
+                            class="min-w-[340px] md:min-w-[340px] rounded-3xl bg-green-normal shadow-md border border-gray-100 p-5 pt-0 flex flex-col gap-4 snap-center">
                             <div class="relative flex justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52" fill="none"
-                                    class="absolute z-1 h-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 481 52" fill="none" preserveAspectRatio="none"
+                                    class="absolute z-1 w-full lg:w-fit h-8 lg:h-12">
                                     <path
                                         d="M480.307 -1.43269e-10C430.574 0.000103166 443.109 51.5156 404.413 51.5156L75.8936 51.5156C37.1974 51.5156 49.7324 0.000103167 0 0L480.307 -1.43269e-10Z"
                                         fill="white" />
@@ -126,7 +126,7 @@
                 </div>
             </div>
         @else
-            <div class="w-full overflow-x-auto no-scrollbar snap-x snap-mandatory py-20">
+            <div class="w-full overflow-x-auto no-scrollbar snap-x snap-mandatory py-12 lg:py-20">
                 {{-- RAIL FLEX HORIZONTAL --}}
                 <div class="flex gap-6 w-max">
                     @foreach ($timetables as $timetable)
@@ -217,18 +217,22 @@
         @endif
     </section>
 
-    <section class="h-full bg-green-normal flex flex-col items-center gap-20 px-20">
+    <section class="h-full bg-green-normal flex flex-col items-center gap-20 px-4 lg:px-20">
         <div class="relative flex justify-center w-full">
-            <svg class="absolute z-1 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102" fill="none">
+            <svg class="absolute z-1 w-full lg:w-fit h-8 lg:h-12" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1443 102" fill="none" preserveAspectRatio="none">
                 <path
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
-            <h2 class="font-bold text-green-normal text-4xl absolute z-2">Tentang Kami</h2>
+
+            <h2 class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2 text-center">
+                Tentang Kami
+            </h2>
         </div>
 
-        <div class="flex gap-12">
-            <div class="flex flex-col gap-8 w-6/10">
+        <div class="flex flex-col lg:flex-row gap-12">
+            <div class="flex flex-col gap-8 w-full lg:w-6/10">
                 <h2 class="font-bold text-white text-4xl">Puncak Tennis Club</h2>
                 <p class="text-white">Puncak Tennis Club atau biasa disebut PTC adalah komunitas pecinta tenis yang ada di
                     wilayah Puncak. Klub ini
@@ -249,20 +253,21 @@
                     </div>
                 </div>
             </div>
-            <img class="w-4/10" src="{{ asset('assets/images/about.png') }}" alt="">
+            <img class="w-full lg:w-4/10" src="{{ asset('assets/images/about.png') }}" alt="">
         </div>
 
-        <div class="bg-white w-full px-12 pb-12 rounded-3xl gap-20 flex flex-col items-center">
+        <div class="bg-white w-full px-4 lg:px-12 pb-12 rounded-3xl gap-20 flex flex-col items-center">
             <div class="top-0 relative flex justify-center w-full">
-                <svg class="absolute z-1 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102" fill="none">
+                <svg class="absolute z-1 w-full lg:w-fit h-8 lg:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
+                    fill="none" preserveAspectRatio="none">
                     <path
                         d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                         fill="#388132" />
                 </svg>
-                <h2 class="font-bold text-white text-3xl absolute z-2">Our Service</h2>
+                <h2 class="font-bold text-white text-lg lg:text-3xl absolute z-2">Our Service</h2>
             </div>
             <div class="flex flex-col gap-12 text-green-normal font-semibold text-2xl">
-                <div class="flex gap-12">
+                <div class="flex flex-col lg:flex-row items-center jusfify-center gap-12">
                     <div>
                         3 hours coaching
                     </div>
@@ -273,7 +278,7 @@
                         Ballboy
                     </div>
                 </div>
-                <div class="flex gap-12">
+                <div class="flex flex-col lg:flex-row items-center jusfify-center gap-12">
                     <div>
                         Free Racket and Ball
                     </div>
@@ -284,17 +289,18 @@
             </div>
         </div>
         <div class="relative flex justify-center bottom-0 w-full">
-            <svg class="bottom-0 rotate-180 absolute z-1 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
-                fill="none">
+            <svg class="bottom-0 rotate-180 absolute z-1 w-full lg:w-fit h-8 lg:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
+                fill="none" preserveAspectRatio="none">
                 <path
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
+            <h2 class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2 bottom-0">Photo</h2>
         </div>
     </section>
 
-    <section class="bg-white flex flex-col items-center gap-20 px-20 py-20">
-        <h2 class="font-bold text-green-normal text-4xl">Photo</h2>
+    <section class="bg-white flex flex-col items-center gap-8 lg:gap-20 px-4 lg:px-20 py-12 lg:py-20">
+        {{-- <h2 class="font-bold text-green-normal text-4xl">Photo</h2> --}}
 
         <div x-data="photoCarousel(@js($photoUrls))" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
             <!-- Tombol kiri -->
@@ -460,7 +466,7 @@
             }
         </script>
 
-        <h2 class="font-bold text-green-normal text-4xl">Video</h2>
+        <h2 class="font-bold text-green-normal text-xl lg:text-4xl">Video</h2>
 
         <div x-data="videoCarousel(@js($videoUrls))" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
             <!-- Tombol kiri -->
@@ -652,14 +658,14 @@
         </script>
     </section>
 
-    <section class="h-full bg-green-normal flex flex-col items-center gap-20 px-20">
+    <section class="h-full bg-green-normal flex flex-col items-center gap-20 px-4 lg:px-20">
         <div class="relative flex justify-center w-full">
-            <svg class="absolute z-1 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102" fill="none">
+            <svg class="absolute z-1 w-full lg:w-fit h-8 lg:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102" fill="none" preserveAspectRatio="none">
                 <path
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
-            <h2 class="font-bold text-green-normal text-4xl absolute z-2">Practice Location</h2>
+            <h2 class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2">Practice Location</h2>
         </div>
 
         <div class="flex gap-12 w-full">
@@ -669,8 +675,8 @@
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div class="relative flex justify-center bottom-0 w-full">
-            <svg class="bottom-0 rotate-180 absolute z-1 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
-                fill="none">
+            <svg class="bottom-0 rotate-180 absolute z-1 w-full lg:w-fit h-8 lg:h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1443 102"
+                fill="none" preserveAspectRatio="none">
                 <path
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
@@ -679,9 +685,9 @@
     </section>
 
     <section class="h-full bg-white flex flex-col items-center gap-20 px-20">
-        <h2 class="font-bold text-green-normal text-4xl">Our Partner</h2>
+        <h2 class="font-bold text-green-normal text-xl lg:text-4xl">Our Partner</h2>
 
-        <div class="flex gap-20 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-20 pb-20">
             <img class="w-40" src="{{ asset('assets/images/partner (1).png') }}" alt="">
             <img class="w-40" src="{{ asset('assets/images/partner (2).png') }}" alt="">
             <img class="w-40" src="{{ asset('assets/images/partner (3).png') }}" alt="">
