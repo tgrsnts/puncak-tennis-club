@@ -8,7 +8,7 @@
     <title>
         @yield('title', 'Default Title')
     </title>
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('style')
 
     <!-- Icons -->
@@ -32,12 +32,26 @@
         </div>
     @else
         @include('layout.partials.navbar')
-        <div class="flex transition-all duration-300">        
+        <div class="flex transition-all duration-300">
             <div id="mainContent" class="mt-20 flex flex-col w-full transition-all duration-300">
                 @yield('content')
             </div>
         </div>
     @endif
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                toast: true,
+                position: 'top-end',
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    @endif
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.getElementById('navbar');
@@ -49,8 +63,8 @@
                 toggleBtn.addEventListener('click', () => {
                     navbar.classList.toggle('lg:pl-80');
                     navbar.classList.toggle('lg:pl-0');
-                    sidebar.classList.toggle('lg:ml-0');    
-                    sidebar.classList.toggle('lg:-ml-80');                    
+                    sidebar.classList.toggle('lg:ml-0');
+                    sidebar.classList.toggle('lg:-ml-80');
                     sidebar.classList.toggle('ml-0');
                     content.classList.toggle('lg:ml-80');
                     content.classList.toggle('ml-0');

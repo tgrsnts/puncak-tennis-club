@@ -10,6 +10,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MidtransNotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Models\Coach;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -113,9 +114,13 @@ Route::prefix('{locale?}')
                     Route::post('/{payment}/settle', [\App\Http\Controllers\Admin\PaymentController::class, 'settle'])->name('settle');
                     Route::post('/{payment}/expire', [\App\Http\Controllers\Admin\PaymentController::class, 'expire'])->name('expire');
                 });
+                Route::get('/profile', fn() => view('admin.profile.index'))->name('profile');
             });
 
-            Route::get('/profile', fn() => view('admin.profile.index'))->name('profile');
+            Route::prefix('profile')->name('profile.')->group(function () {
+                Route::get('/', [ProfileController::class, 'index'])->name('index');
+                Route::put('/', [ProfileController::class, 'update'])->name('update');
+            });
         });
     });
 

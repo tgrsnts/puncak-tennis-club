@@ -70,19 +70,6 @@
             </form>
         </div>
     </div>
-    {{-- <a href="/user/profile"
-            class="{{ $currentRoute == 'user/staycation' ? 'text-green-normal bg-white' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-            <div class="flex w-12 h-12 mr-4 items-center justify-center">
-                <img class="w-full aspect-square rounded-full"
-                    src="{{ Auth()->user()->foto ? asset('storage/' . Auth()->user()->foto) : asset('assets/image/avatar-biru.webp') }}"
-                    alt="Foto Profil" />
-            </div>
-            <flex class="flex-col">
-                <p class="font-semibold">{{ Auth()->user()->nama }}</p>
-                <p class="text-sm font-normal">user</p>
-            </flex>
-        </a> --}}
-    </div>
     <script>
         function validatelogout() {
             Swal.fire({
