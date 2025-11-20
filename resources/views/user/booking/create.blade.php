@@ -35,7 +35,8 @@
                             <i class="fa-regular fa-clock text-gray-600"></i>
                             <div>
                                 <div class="text-xs text-gray-500">Time Finish</div>
-                                <div class="font-semibold text-gray-800"> {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</div>
+                                <div class="font-semibold text-gray-800">
+                                    {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</div>
                             </div>
                         </div>
                     </div>
@@ -124,7 +125,11 @@
                             @if ($isFull)
                                 <p class="mt-1 text-xs text-red-600">Sesi penuh. Tidak dapat melakukan pemesanan.</p>
                             @else
-                                <p class="mt-1 text-xs text-gray-500">Sisa slot: {{ $remain }}</p>
+                                <div class="flex gap-2">
+                                    <p class="mt-1 text-xs text-gray-500">Sisa slot: {{ $remain }}</p>
+                                    <p id="person_error" class="mt-1 text-xs text-red-600 hidden"></p>
+                                    <p id="person_error" class="mt-1 text-xs text-red-600 hidden"></p>
+                                </div>
                             @endif
                         </div>
                         <div>
@@ -144,7 +149,8 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-gray-600">Waktu</span>
-                            <span class="font-medium">{{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }} – {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
+                            <span class="font-medium">{{ \Carbon\Carbon::parse($timetable->start_time)->format('H:i') }} –
+                                {{ \Carbon\Carbon::parse($timetable->end_time)->format('H:i') }}</span>
                         </div>
                         <div class="flex items-center justify-between">
                             <span class="text-gray-600">Coach</span>
@@ -193,8 +199,8 @@
             const input = document.getElementById('person_count');
             const line = document.getElementById('priceLine');
             const total = document.getElementById('totalPrice');
+            const errorText = document.getElementById('person_error');
 
-            // Ambil price & sisa slot dari data-* (server source of truth)
             const price = parseInt(form?.dataset.price || '0', 10);
             const remain = parseInt(form?.dataset.remain || '1', 10);
 
@@ -202,16 +208,28 @@
                 return new Intl.NumberFormat('id-ID').format(num);
             }
 
-            function clampQty(q) {
+            function clamp(q) {
                 if (isNaN(q) || q < 1) return 1;
                 if (remain > 0) return Math.min(q, remain);
                 return 1;
             }
 
             function updateTotals() {
-                let qty = clampQty(parseInt(input.value || '1', 10));
-                // Sinkronkan nilai input kalau user ketik melebihi sisa slot
-                input.value = qty;
+                const raw = parseInt(input.value || '1', 10);
+                const qty = clamp(raw);
+
+                // ----- ERROR MESSAGE -----
+                if (raw < 1) {
+                    errorText.textContent = "Minimal 1 peserta.";
+                    errorText.classList.remove('hidden');
+                } else if (raw > remain) {
+                    errorText.textContent = `Maksimal ${remain} peserta.`;
+                    errorText.classList.remove('hidden');
+                } else {
+                    errorText.classList.add('hidden');
+                }
+
+                // hitung total tetap berdasarkan clamp, bukan raw
                 line.textContent = `Rp ${formatRupiah(price)} × ${qty}`;
                 total.textContent = `Rp ${formatRupiah(price * qty)}`;
             }
