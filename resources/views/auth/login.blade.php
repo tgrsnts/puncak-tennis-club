@@ -22,7 +22,7 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
     <main>
-        <div class="min-h-screen bg-green-normal grid place-items-center py-8">
+        <div class="min-h-screen bg-green-normal grid place-items-center px-4 py-8">
 
             <div
                 class="bg-white rounded-3xl shadow-xl overflow-hidden w-full max-w-5xl
