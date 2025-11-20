@@ -8,7 +8,7 @@
     <title>
         Register
     </title>
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('style')
 
     <!-- Icons -->
@@ -80,37 +80,37 @@
     </main>
 
     <script>
-        // place just before </body> or inside DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
-            const toggle = document.querySelector('.js-password-toggle');
-            const label = document.querySelector('.js-password-label');
-            const pwd = document.querySelector('.js-password');
+            // handle semua wrapper sekaligus
+            document.querySelectorAll('[data-password-wrapper]').forEach((wrapper) => {
+                const toggle = wrapper.querySelector('.js-password-toggle');
+                const label = wrapper.querySelector('.js-password-label');
+                const input = wrapper.querySelector('.js-password');
 
-            if (!toggle || !pwd || !label) return;
+                if (!toggle || !label || !input) return;
 
-            // keep aria in-sync and swap icon
-            const updateUI = (show) => {
-                pwd.type = show ? 'text' : 'password';
-                label.setAttribute('aria-pressed', String(show));
-                // swap icon (fontawesome example)
-                label.innerHTML = show ?
-                    '<i class="fa-solid fa-eye-slash" aria-hidden="true"></i>' :
-                    '<i class="fa-solid fa-eye" aria-hidden="true"></i>';
-            };
+                const updateUI = (show) => {
+                    input.type = show ? 'text' : 'password';
+                    label.setAttribute('aria-pressed', String(show));
+                    label.innerHTML = show ?
+                        '<i class="fa-solid fa-eye-slash" aria-hidden="true"></i>' :
+                        '<i class="fa-solid fa-eye" aria-hidden="true"></i>';
+                };
 
-            // init (in case)
-            updateUI(toggle.checked);
+                // init
+                updateUI(toggle.checked);
 
-            // react to checkbox changes
-            toggle.addEventListener('change', () => updateUI(toggle.checked));
+                // klik checkbox
+                toggle.addEventListener('change', () => updateUI(toggle.checked));
 
-            // support keyboard toggling when label is focused
-            label.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggle.checked = !toggle.checked;
-                    updateUI(toggle.checked);
-                }
+                // keyboard support (Enter/Space) di label
+                label.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggle.checked = !toggle.checked;
+                        updateUI(toggle.checked);
+                    }
+                });
             });
         });
     </script>

@@ -23,7 +23,7 @@
          {{-- Password --}}
         <div class="flex flex-col">
             <label for="password">Password</label>
-            <div class="relative">
+            <div class="relative" data-password-wrapper>
                 <div class="absolute inset-y-0 right-0 flex items-center px-4">
                     <input class="hidden js-password-toggle" id="toggle-password" type="checkbox" />
                     <label for="toggle-password"
@@ -44,7 +44,7 @@
         {{-- Confirm Password --}}
         <div class="flex flex-col">
             <label for="password_confirmation">Confirm Password</label>
-            <div class="relative">
+            <div class="relative" data-password-wrapper>
                 <div class="absolute inset-y-0 right-0 flex items-center px-4">
                     <input class="hidden js-password-toggle" id="toggle-confirm-password" type="checkbox" />
                     <label for="toggle-confirm-password"
