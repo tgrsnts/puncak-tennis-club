@@ -111,19 +111,19 @@ class DatabaseSeeder extends Seeder
         Coach::create([
             'name' => 'Achmad Fauzal',
             'specialty' => 'Beginner Coaching',
-            'photo_url' => 'https://example.com/photos/john_doe.webp',
+            // 'photo_url' => 'https://example.com/photos/john_doe.webp',
         ]);
 
         Coach::create([
             'name' => 'Ferizwan',
             'specialty' => 'Beginner Coaching',
-            'photo_url' => 'https://example.com/photos/john_doe.webp',
+            // 'photo_url' => 'https://example.com/photos/john_doe.webp',
         ]);
 
         Coach::create([
             'name' => 'Rizky Ramadhan',
             'specialty' => 'Intermediate Coaching',
-            'photo_url' => 'https://example.com/photos/jane_smith.webp',
+            // 'photo_url' => 'https://example.com/photos/jane_smith.webp',
         ]);
 
         Timetable::create([

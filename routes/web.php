@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryPhotoController;
 use App\Http\Controllers\Admin\GalleryVideoController;
+use App\Http\Controllers\Admin\CoachController;
 use App\Http\Controllers\Admin\TimetableController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BookingController;
@@ -97,6 +98,15 @@ Route::prefix('{locale?}')
                     Route::get('/{video}/edit', [GalleryVideoController::class, 'edit'])->name('edit');
                     Route::put('/{video}', [GalleryVideoController::class, 'update'])->name('update');
                     Route::delete('/{video}', [GalleryVideoController::class, 'destroy'])->name('destroy');
+                });
+
+                Route::prefix('coach')->name('coach.')->group(function () {
+                    Route::get('/', [CoachController::class, 'index'])->name('index');
+                    Route::get('/create', [CoachController::class, 'create'])->name('create');
+                    Route::post('/', [CoachController::class, 'store'])->name('store');
+                    Route::get('/{id}/edit', [CoachController::class, 'edit'])->name('edit');
+                    Route::put('/{id}', [CoachController::class, 'update'])->name('update');
+                    Route::delete('/{id}', [CoachController::class, 'destroy'])->name('destroy');
                 });
 
                 // ======== TIMETABLE ========
