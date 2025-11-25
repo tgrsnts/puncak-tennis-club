@@ -59,7 +59,7 @@
             </ul>
         </nav>
         @auth
-            <a href="/admin"
+            <a href="/booking"
                 class="lg:inline hidden  z-10 rounded-full hover:bg-white focus:bg-white px-8 py-2 border-2 border-white hover:text-green-normal hover:border-green-normal focus:border-green-normal text-white">
                 Dashboard
             </a>
