@@ -1,0 +1,37 @@
+name: Deploy to InfinityFree via FTP
+
+on:
+  push:
+    branches: [ "main" ]   # ganti kalau branch kamu beda
+  workflow_dispatch:        # biar bisa dijalankan manual juga
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # (Opsional) kalau ada build step, taruh di sini.
+      # Misal project kamu pakai npm build:
+      # - name: Use Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      # - run: npm ci
+      # - run: npm run build
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp         
+          port: 21
+          local-dir: ./        
+          server-dir: /htdocs/
+          exclude: |
+            **/.git*
+            **/.github/**
+            **/node_modules/**
