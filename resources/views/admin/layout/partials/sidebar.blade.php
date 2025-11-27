@@ -1,70 +1,75 @@
 <nav id="sidebar"
     class="-ml-80 lg:ml-0 transition-all duration-300 fixed left-0 h-full w-80 bg-green-normal z-11 flex flex-col gap-1 pr-12 font-sans text-base font-normal text-blue-gray-700">
     <div class="flex flex-col justify-between h-full pb-4">
-        <div class="flex flex-col gap-1">
-            <div class="flex w-64  h-20 justify-center">
-                <a href="/" class="flex items-center gap-2 whitespace-nowrap text-2xl">
-                    <img class="h-8" src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}" alt="">
+        <div class="flex flex-col justify-between h-full">
+            <div class="flex flex-col gap-1">
+                <div class="flex w-64  h-20 justify-center">
+                    <a href="/" class="flex items-center gap-2 whitespace-nowrap text-2xl">
+                        <img class="h-8" src="{{ asset('assets/images/logo-puncak-tennis-club.webp') }}"
+                            alt="">
+                    </a>
+                </div>
+                <a href="/admin"
+                    class="mt-4 {{ Request::is('*admin') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-dashboard"></i>
+                    </div>
+                    Dashboard
+                </a>
+
+                <a href="/admin/order"
+                    class="{{ Request::is('*admin/order') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-list"></i>
+                    </div>
+                    Order List
+                </a>
+
+                <a href="/admin/gallery-photo"
+                    class="{{ Request::is('*admin/gallery-photo*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-image"></i>
+                    </div>
+                    Gallery Photo
+                </a>
+
+                <a href="/admin/gallery-video"
+                    class="{{ Request::is('*admin/gallery-video*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    Gallery Video
+                </a>
+
+                <a href="/admin/coach"
+                    class="{{ Request::is('*admin/coach*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    Coach
+                </a>
+
+                <a href="/admin/timetable"
+                    class="{{ Request::is('*admin/timetable*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                        <i class="fa-solid fa-calendar"></i>
+                    </div>
+                    Timetable
                 </a>
             </div>
-            <a href="/admin"
-                class="mt-4 {{ Request::is('*admin') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-dashboard"></i>
-                </div>
-                Dashboard
-            </a>
 
-            <a href="/admin/order"
-                class="{{ Request::is('*admin/order') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-list"></i>
-                </div>
-                Order List
-            </a>
-
-            <a href="/admin/gallery-photo"
-                class="{{ Request::is('*admin/gallery-photo*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-image"></i>
-                </div>
-                Gallery Photo
-            </a>
-
-            <a href="/admin/gallery-video"
-                class="{{ Request::is('*admin/gallery-video*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-video"></i>
-                </div>
-                Gallery Video
-            </a>
-            
-            <a href="/admin/coach"
-                class="{{ Request::is('*admin/coach*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                Coach
-            </a>
-
-            <a href="/admin/timetable"
-                class="{{ Request::is('*admin/timetable*') ? 'text-white bg-yellow-normal' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                    <i class="fa-solid fa-calendar"></i>
-                </div>
-                Timetable
-            </a>
-
-            <form action="{{ route('logout', app()->getLocale()) }}" method="POST" id="logout-form">
-                @csrf
-                <button type="button" onclick="validatelogout()"
-                    class="text-white font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
-                    <div class="flex w-6 h-6 mr-4 items-center justify-center">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </div>
-                    Log Out
-                </button>
-            </form>
+            <div class="flex flex-col gap-1">
+                <form action="{{ route('logout', app()->getLocale()) }}" method="POST" id="logout-form">
+                    @csrf
+                    <button type="button" onclick="validatelogout()"
+                        class="text-white font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
+                        <div class="flex w-6 h-6 mr-4 items-center justify-center">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </div>
+                        Log Out
+                    </button>
+                </form>
+            </div>
         </div>
         {{-- <a href="/admin/profile"
             class="{{ $currentRoute == 'admin/staycation' ? 'text-green-normal bg-white' : 'text-white' }} font-poppins font-semibold flex items-center w-full py-4 pl-16 pr-8 leading-tight transition-all rounded-r-lg outline-none text-start hover:bg-yellow-normal hover:text-white focus:bg-yellow-normal focus:text-white active:bg-yellow-normal active:text-white">
