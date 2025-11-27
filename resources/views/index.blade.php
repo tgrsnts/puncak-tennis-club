@@ -295,7 +295,7 @@
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
-            <h2 class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2 bottom-0">Photo</h2>
+            <h2 id="photo" class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2 bottom-0">Photo</h2>
         </div>
     </section>
 
@@ -466,7 +466,7 @@
             }
         </script>
 
-        <h2 class="font-bold text-green-normal text-xl lg:text-4xl">Video</h2>
+        <h2 id="video" class="font-bold text-green-normal text-xl lg:text-4xl">Video</h2>
 
         <div x-data="videoCarousel(@js($videoUrls))" x-init="init()" class="relative mx-auto w-full flex items-center gap-4">
             <!-- Tombol kiri -->
@@ -665,7 +665,7 @@
                     d="M1443 -6C1293.59 -5.99978 1331.25 101.964 1214.99 101.964L228.008 101.964C111.752 101.964 149.412 -5.9996 0 -6L1443 -6Z"
                     fill="white" />
             </svg>
-            <h2 class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2">Practice Location</h2>
+            <h2 id="location" class="font-bold text-green-normal text-xl lg:text-4xl absolute z-2">Practice Location</h2>
         </div>
 
         <div class="flex gap-12 w-full">

@@ -40,11 +40,11 @@
                 </li>
                 <li
                     class="text-green-normal border-b-2 border-transparent hover:border-green-normal {{ Request::is('video') ? 'border-green-normal' : '' }}">
-                    <a href="/video">Video</a>
+                    <a href="#video">Video</a>
                 </li>
                 <li
                     class="text-green-normal border-b-2 border-transparent hover:border-green-normal {{ Request::is('contact') ? 'border-green-normal' : '' }}">
-                    <a href="#contact">Contact</a>
+                    <a href="#location">Location</a>
                 </li>
 
                 @auth
@@ -69,6 +69,12 @@
         @endauth
     </div>
 </header>
+
+<style>
+    html {
+        scroll-behavior: smooth
+    }
+</style>
 
 <script>
     const isGuest = @json(!Auth::check());
